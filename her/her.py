@@ -1,9 +1,12 @@
 import numpy as np
 from mpi4py import MPI
 from her.rollout import RolloutWorker
-import gym
 from her.her_sampler import make_sample_her_transitions
 from her.ddpg import DDPG
+import sys
+sys.path.insert(0, '/storage/jalverio')
+import gym
+
 
 
 def train(policy, rollout_worker, evaluator,
