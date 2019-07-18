@@ -1,3 +1,5 @@
+import sys
+sys.path.insert(0, '/storage/jalverio')
 import gym
 import numpy as np
 import os
