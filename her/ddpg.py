@@ -85,7 +85,6 @@ class DDPG(object):
     def get_actions(self, o, g, noise_eps=0., random_eps=0.):
         actions = self.main.get_action(o, g)
 
-        import pdb; pdb.set_trace()
         noise = (noise_eps * np.random.randn(actions.shape[0], 4)).astype(np.float32)
         actions += torch.tensor(noise)
 
