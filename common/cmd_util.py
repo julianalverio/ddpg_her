@@ -10,7 +10,7 @@ except ImportError:
 
 import gym
 from gym.wrappers import FlattenDictWrapper
-from baselines import logger
+import logger
 from baselines.bench import Monitor
 from baselines.common import set_global_seeds
 from baselines.common.atari_wrappers import make_atari, wrap_deepmind
