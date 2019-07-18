@@ -1,5 +1,7 @@
 __all__ = ['Monitor', 'get_monitor_files', 'load_results']
 
+import sys
+sys.path.insert(0, '/storage/jalverio/gym')
 import gym
 from gym.core import Wrapper
 import time
