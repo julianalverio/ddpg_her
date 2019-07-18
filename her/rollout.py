@@ -1,6 +1,6 @@
 import numpy as np
-from tensorboardX import SummaryWriter
 import shutil
+from torch.utils.tensorboard import SummaryWriter
 
 
 class RolloutWorker:
