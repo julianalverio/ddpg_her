@@ -1,6 +1,6 @@
-from baselines import logger
-from baselines.common.tests.test_with_mpi import with_mpi
-from baselines.common import mpi_util
+import logger
+from common.tests.test_with_mpi import with_mpi
+from common import mpi_util
 
 @with_mpi()
 def test_mpi_weighted_mean():
