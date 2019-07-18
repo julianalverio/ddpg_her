@@ -91,7 +91,7 @@ class DDPG(object):
 
         actions = torch.clamp(actions, -1., 1.)
         eps_greedy_noise = np.random.binomial(1, random_eps, actions.shape[0]).reshape(-1, 1)
-        random_action = self.torch_random_action(19)
+        random_action = self.torch_random_action(actions.shape[0])
         actions += torch.tensor(eps_greedy_noise.astype(np.float32)) * (
                     random_action - actions)  # eps-greedy
         return actions
