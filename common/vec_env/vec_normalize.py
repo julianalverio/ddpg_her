@@ -1,5 +1,5 @@
 from . import VecEnvWrapper
-from baselines.common.running_mean_std import RunningMeanStd
+from common.running_mean_std import RunningMeanStd
 import numpy as np
 
 
