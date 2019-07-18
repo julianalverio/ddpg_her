@@ -8,7 +8,7 @@ import functools
 import tensorflow as tf
 import numpy as np
 
-from baselines.common import tf_util as U
+from common import tf_util as U
 
 
 def store_args(method):

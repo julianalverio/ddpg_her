@@ -1,9 +1,9 @@
 from collections import OrderedDict
 import numpy as np
-from baselines.her.normalizer import Normalizer
-from baselines.her.replay_buffer import ReplayBuffer
-from baselines.common.mpi_adam_torch import MpiAdam as MpiAdamTorch
-from baselines.her.actor_critic import ActorCritic
+from her.normalizer import Normalizer
+from her.replay_buffer import ReplayBuffer
+from common.mpi_adam_torch import MpiAdam as MpiAdamTorch
+from her.actor_critic import ActorCritic
 
 import torch
 import copy

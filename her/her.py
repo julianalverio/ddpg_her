@@ -1,9 +1,9 @@
 import numpy as np
 from mpi4py import MPI
-from baselines.her.rollout import RolloutWorker
+from her.rollout import RolloutWorker
 import gym
-from baselines.her.her_sampler import make_sample_her_transitions
-from baselines.her.ddpg import DDPG
+from her.her_sampler import make_sample_her_transitions
+from her.ddpg import DDPG
 
 
 def train(policy, rollout_worker, evaluator,

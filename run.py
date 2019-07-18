@@ -1,7 +1,7 @@
 import sys
 import argparse
-from baselines.common.cmd_util import make_vec_env
-from baselines.her.her import learn
+from common.cmd_util import make_vec_env
+from her.her import learn
 
 
 def build_env(args):
