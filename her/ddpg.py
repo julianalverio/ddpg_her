@@ -49,7 +49,7 @@ class DDPG(object):
         self.T = params['T']
         self.rollout_batch_size = params['num_envs']
         self.clip_return = params['clip_return']
-        self.sample_transitions = params['sample_transitions']
+        self.sample_transitions = params['sample_her_transitions']
         self.gamma = params['gamma']
 
         input_shapes = dims_to_shapes(self.input_dims)
