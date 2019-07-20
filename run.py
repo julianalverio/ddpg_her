@@ -112,7 +112,7 @@ def main():
     choose_gpu()
     args = parse_args()
     set_seed(args.seed)
-    env = make_vec_env(args.env, 'robotics', args.num_env, seed=args, reward_scale=1.0, flatten_dict_observations=False)
+    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=args, reward_scale=1.0, flatten_dict_observations=False)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
     PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, args.seed)
