@@ -37,7 +37,6 @@ class DDPG(object):
             reuse (boolean): whether or not the networks should be reused
         """
 
-        import pdb; pdb.set_trace()
         self.input_dims = params['dims']
         self.buffer_size = params['buffer_size']
         self.polyak = params['polyak']
@@ -48,7 +47,7 @@ class DDPG(object):
         self.norm_clip = params['norm_clip']
         self.clip_obs = params['clip_obs']
         self.T = params['T']
-        self.rollout_batch_size = params['rollout_batch_size']
+        self.rollout_batch_size = params['num_envs']
         self.clip_return = params['clip_return']
         self.sample_transitions = params['sample_transitions']
         self.gamma = params['gamma']
