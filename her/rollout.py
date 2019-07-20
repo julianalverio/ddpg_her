@@ -1,10 +1,9 @@
 import numpy as np
-import shutil
 from torch.utils.tensorboard import SummaryWriter
 
 
 class RolloutWorker:
-    def __init__(self, venv, policy, dims, T, noise_eps, random_eps, rollout_batch_size, clip_obs):
+    def __init__(self, venv, policy, params, evaluate=False):
         """Rollout worker generates experience by interacting with one or many environments.
 
         Args:
@@ -16,19 +15,19 @@ class RolloutWorker:
         """
         self.venv = venv
         self.policy = policy
-        self.dims = dims
-        self.T = T
-        self.rollout_batch_size = rollout_batch_size
-        self.noise_eps = noise_eps
-        self.random_eps = random_eps
-        self.clip_obs = clip_obs
+        self.dims = params['dims']
+        self.T = params['T']
+        self.rollout_batch_size = params['num_envs']
+        self.clip_obs = params['clip_obs']
 
-        self.info_keys = [key.replace('info_', '') for key in dims.keys() if key.startswith('info_')]
+        self.noise_eps = params['noise_eps'] if not evaluate else 0
+        self.random_eps = params['random_eps'] if not evaluate else 0
+
+        self.info_keys = [key.replace('info_', '') for key in params['dims'].keys() if key.startswith('info_')]
 
         self.reset_all_rollouts()
 
-        shutil.rmtree('runs/most_recent', ignore_errors=True)
-        self.writer = SummaryWriter('runs/most_recent')
+        self.writer = SummaryWriter(params['log_dir'])
         self.counter = 0
         self.torch_counter = 0
 
@@ -84,6 +83,7 @@ class RolloutWorker:
 
         mean = np.mean(successes)
         print(mean, self.counter)
+        print('length of successes', len(successes))
         self.writer.add_scalar('success rate', mean, self.counter)
         self.counter += 1
 

@@ -15,9 +15,7 @@ def dims_to_shapes(input_dims):
 
 
 class DDPG(object):
-    def __init__(self, input_dims, buffer_size, polyak, batch_size,
-                 Q_lr, pi_lr, norm_eps, norm_clip, clip_obs, T,
-                 rollout_batch_size, clip_return, sample_transitions, gamma):
+    def __init__(self, params):
         """Implementation of DDPG that is used in combination with Hindsight Experience Replay (HER).
 
         Args:
@@ -39,20 +37,21 @@ class DDPG(object):
             reuse (boolean): whether or not the networks should be reused
         """
 
-        self.input_dims = input_dims
-        self.buffer_size = buffer_size
-        self.polyak = polyak
-        self.batch_size = batch_size
-        self.Q_lr = Q_lr
-        self.pi_lr = pi_lr
-        self.norm_eps = norm_eps
-        self.norm_clip = norm_clip
-        self.clip_obs = clip_obs
-        self.T = T
-        self.rollout_batch_size = rollout_batch_size
-        self.clip_return = clip_return
-        self.sample_transitions = sample_transitions
-        self.gamma = gamma
+        import pdb; pdb.set_trace()
+        self.input_dims = params['dims']
+        self.buffer_size = params['buffer_size']
+        self.polyak = params['polyak']
+        self.batch_size = params['batch_size']
+        self.Q_lr = params['lr']
+        self.pi_lr = params['lr']
+        self.norm_eps = params['norm_eps']
+        self.norm_clip = params['norm_clip']
+        self.clip_obs = params['clip_obs']
+        self.T = params['T']
+        self.rollout_batch_size = params['rollout_batch_size']
+        self.clip_return = params['clip_return']
+        self.sample_transitions = params['sample_transitions']
+        self.gamma = params['gamma']
 
         input_shapes = dims_to_shapes(self.input_dims)
         self.dimo = self.input_dims['o']

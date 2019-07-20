@@ -1,11 +1,15 @@
 import numpy as np
 from mpi4py import MPI
+import torch
+import random
 from her.rollout import RolloutWorker
 from her.her_sampler import make_sample_her_transitions
 from her.ddpg import DDPG
 import sys
 sys.path.insert(0, '/storage/jalverio/gym')
 import gym
+
+
 
 
 
@@ -26,6 +30,10 @@ def train(policy, rollout_worker, evaluator,
 
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
+
+
+
+
 
 
 def learn(env, total_timesteps):
