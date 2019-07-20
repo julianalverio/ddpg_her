@@ -67,7 +67,7 @@ def parse_args():
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
     args = arg_parser.parse_args()
-    PARAMS['num_envs'] = args.num_env
+    PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
     return args
 
