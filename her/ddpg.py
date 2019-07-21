@@ -52,6 +52,7 @@ class DDPG(object):
         self.sample_transitions = params['sample_her_transitions']
         self.gamma = params['gamma']
 
+        import pdb; pdb.set_trace()
         input_shapes = dims_to_shapes(self.input_dims)
         self.dimo = self.input_dims['o']
         self.dimg = self.input_dims['g']
