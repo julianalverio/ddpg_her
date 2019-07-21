@@ -82,8 +82,7 @@ class RolloutWorker:
             ag[...] = ag_new
 
         mean = np.mean(successes)
-        print(mean, self.counter)
-        print('length of successes', len(successes))
+        print('epoch %s: %s' % (self.counter, mean))
         self.writer.add_scalar('success rate', mean, self.counter)
         self.counter += 1
 
