@@ -12,9 +12,9 @@ from her.ddpg import DDPG
 import GPUtil
 from her.her_sampler import make_sample_her_transitions
 import sys
-sys.path.insert(0, '/storage/jalverio/gym')
+sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
-
+import pdb; pdb.set_trace()
 
 PARAMS = {
     'lr': 0.001,
