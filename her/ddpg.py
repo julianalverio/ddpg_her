@@ -134,19 +134,17 @@ class DDPG(object):
         target_tf = torch.clamp(rewards + discounted_reward, -self.clip_return, 0.)
         q_loss_tf = torch.nn.MSELoss()(target_tf.detach(), self.main.q_tf)
 
-        # STEP MPI ADAM OPTIMIZER FOR CRITIC
-        self.critic_optimizer_util.zero_grad()
+        self.critic_optimizer.zero_grad()
         q_loss_tf.backward()
-        self.critic_optimizer.update()
+        self.critic_optimizer.step()
 
-        # policy iteration loss
+        # policy loss
         pi_loss_tf = -self.main.q_pi_tf.mean()
         pi_loss_tf += (self.main.pi_tf ** 2).mean()
 
-        # STEP MPI ADAM OPTIMIZER FOR ACTOR
-        self.actor_optimizer_util.zero_grad()
+        self.actor_optimizer.zero_grad()
         pi_loss_tf.backward()
-        self.actor_optimizer.update()
+        self.actor_optimizer.step()
 
     # TODO: use load_state_dict here
     def torch_update_target_net(self):
@@ -183,9 +181,5 @@ class DDPG(object):
         self.target.critic = copy.deepcopy(self.main.critic)
 
         # use MPI_ADAM instead
-        self.actor_optimizer_util = optim.Adam(self.main.actor.parameters(), lr=self.pi_lr)
-        self.critic_optimizer_util = optim.Adam(self.main.critic.parameters(), lr=self.Q_lr)
-        self.actor_optimizer = MpiAdamTorch(self.main.actor, self.pi_lr)
-        self.critic_optimizer = MpiAdamTorch(self.main.critic, self.Q_lr)
-        self.actor_optimizer.sync()
-        self.critic_optimizer.sync()
+        self.actor_optimizer = optim.Adam(self.main.actor.parameters(), lr=self.pi_lr)
+        self.critic_optimizer = optim.Adam(self.main.critic.parameters(), lr=self.Q_lr)
