@@ -15,7 +15,6 @@ class ActorCritic(nn.Module):
         self.q_tf = None
 
     def compute_all(self, obs, goal, actions):
-        self.pre_normalized_stats = obs
         obs = self.o_stats.normalize(obs)
         goal = self.g_stats.normalize(goal)
         obs = torch.tensor(obs)
@@ -56,7 +55,7 @@ class ActorCritic(nn.Module):
 class Actor(nn.Module):
     def __init__(self, dims):
         super(Actor, self).__init__()
-        self.linear1 = nn.Linear(in_features=dims['o'], out_features=256)
+        self.linear1 = nn.Linear(in_features=dims['o'] + dims['g'], out_features=256)
         self.linear2 = nn.Linear(in_features=256, out_features=256)
         self.linear3 = nn.Linear(in_features=256, out_features=256)
         self.linear4 = nn.Linear(in_features=256, out_features=4)
@@ -78,7 +77,7 @@ class Actor(nn.Module):
 class Critic(nn.Module):
     def __init__(self, dims):
         super(Critic, self).__init__()
-        self.linear1 = nn.Linear(in_features=dims['o'] + dims['u'], out_features=256)
+        self.linear1 = nn.Linear(in_features=dims['o'] + dims['g'] + dims['u'], out_features=256)
         self.linear2 = nn.Linear(in_features=256, out_features=256)
         self.linear3 = nn.Linear(in_features=256, out_features=256)
         self.linear4 = nn.Linear(in_features=256, out_features=1)
