@@ -90,7 +90,7 @@ def get_dims(env):
 
 
 def train(policy, rollout_worker, evaluator):
-    n_epochs = PARAMS['total_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs']
+    n_epochs = PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs']
     for epoch in range(n_epochs):
         print('epoch:', epoch+1, 'of', n_epochs)
         for _ in range(PARAMS['n_cycles']):
