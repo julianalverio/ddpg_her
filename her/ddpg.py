@@ -48,7 +48,6 @@ class DDPG(object):
         self.sample_transitions = params['sample_her_transitions']
         self.gamma = params['gamma']
 
-        input_shapes = {key: tuple([val]) for key, val in self.input_dims.items()}
         self.dimo = self.input_dims['o']
         self.dimg = self.input_dims['g']
         self.dimu = self.input_dims['u']
@@ -57,7 +56,7 @@ class DDPG(object):
         for key in sorted(self.input_dims.keys()):
             if key.startswith('info_'):
                 continue
-            stage_shapes[key] = (None, *input_shapes[key])
+            stage_shapes[key] = (None, self.input_dims[key])
         stage_shapes['o_2'] = stage_shapes['o']
         stage_shapes['r'] = (None,)
         self.stage_shapes = stage_shapes
@@ -65,9 +64,8 @@ class DDPG(object):
         self.torch_create_network()
 
         # Configure the replay buffer.
-        import pdb; pdb.set_trace()
-        buffer_shapes = {key: (self.T-1 if key != 'o' else self.T, *input_shapes[key])
-                         for key, val in input_shapes.items()}
+        buffer_shapes = {key: (self.T-1 if key != 'o' else self.T, self.input_dims[key])
+                         for key, val in self.input_dims.items()}
         buffer_shapes['g'] = (buffer_shapes['g'][0], self.dimg)
         buffer_shapes['ag'] = (self.T, self.dimg)
 
