@@ -10,10 +10,6 @@ import copy
 import torch.optim as optim
 
 
-def dims_to_shapes(input_dims):
-    return {key: tuple([val]) if val > 0 else tuple() for key, val in input_dims.items()}
-
-
 class DDPG(object):
     def __init__(self, params):
         """Implementation of DDPG that is used in combination with Hindsight Experience Replay (HER).
@@ -52,8 +48,7 @@ class DDPG(object):
         self.sample_transitions = params['sample_her_transitions']
         self.gamma = params['gamma']
 
-        import pdb; pdb.set_trace()
-        input_shapes = dims_to_shapes(self.input_dims)
+        input_shapes = {key: tuple([val]) for key, val in self.input_dims.items()}
         self.dimo = self.input_dims['o']
         self.dimg = self.input_dims['g']
         self.dimu = self.input_dims['u']
@@ -70,6 +65,7 @@ class DDPG(object):
         self.torch_create_network()
 
         # Configure the replay buffer.
+        import pdb; pdb.set_trace()
         buffer_shapes = {key: (self.T-1 if key != 'o' else self.T, *input_shapes[key])
                          for key, val in input_shapes.items()}
         buffer_shapes['g'] = (buffer_shapes['g'][0], self.dimg)

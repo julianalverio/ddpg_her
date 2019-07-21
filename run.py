@@ -77,11 +77,12 @@ def get_dims(env):
     tmp_env.reset()
     obs, _, _, info = tmp_env.step(env.action_space.sample())
     dims = {
-        'o': obs['observation'].shape,
+        'o': obs['observation'].shape[0],
         'u': env.action_space.shape[0],
         'g': obs['desired_goal'].shape[0],
         'info_is_success': 1,
     }
+
 
     distance_threshold = tmp_env.env.distance_threshold
     PARAMS['distance_threshold'] = distance_threshold
