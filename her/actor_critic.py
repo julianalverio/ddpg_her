@@ -3,10 +3,10 @@ import torch.nn as nn
 
 
 class ActorCritic(nn.Module):
-    def __init__(self, o_stats, g_stats):
+    def __init__(self, o_stats, g_stats, dims):
         super(ActorCritic, self).__init__()
-        self.actor = Actor()
-        self.critic = Critic()
+        self.actor = Actor(dims)
+        self.critic = Critic(dims)
 
         self.o_stats = o_stats
         self.g_stats = g_stats
@@ -54,9 +54,9 @@ class ActorCritic(nn.Module):
 
 
 class Actor(nn.Module):
-    def __init__(self):
+    def __init__(self, dims):
         super(Actor, self).__init__()
-        self.linear1 = nn.Linear(in_features=13, out_features=256)
+        self.linear1 = nn.Linear(in_features=dims['o'], out_features=256)
         self.linear2 = nn.Linear(in_features=256, out_features=256)
         self.linear3 = nn.Linear(in_features=256, out_features=256)
         self.linear4 = nn.Linear(in_features=256, out_features=4)
@@ -76,9 +76,9 @@ class Actor(nn.Module):
 
 
 class Critic(nn.Module):
-    def __init__(self):
+    def __init__(self, dims):
         super(Critic, self).__init__()
-        self.linear1 = nn.Linear(in_features=17, out_features=256)
+        self.linear1 = nn.Linear(in_features=dims['o'] + dims['u'], out_features=256)
         self.linear2 = nn.Linear(in_features=256, out_features=256)
         self.linear3 = nn.Linear(in_features=256, out_features=256)
         self.linear4 = nn.Linear(in_features=256, out_features=1)

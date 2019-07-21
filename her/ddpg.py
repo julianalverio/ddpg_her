@@ -177,8 +177,8 @@ class DDPG(object):
         self.o_stats = Normalizer(size=self.dimo, eps=self.norm_eps, default_clip_range=self.norm_clip)
         self.g_stats = Normalizer(size=self.dimg, eps=self.norm_eps, default_clip_range=self.norm_clip)
 
-        self.main = ActorCritic(self.o_stats, self.g_stats)
-        self.target = ActorCritic(self.o_stats, self.g_stats)
+        self.main = ActorCritic(self.o_stats, self.g_stats, self.input_dims)
+        self.target = ActorCritic(self.o_stats, self.g_stats, self.input_dims)
         self.target.actor = copy.deepcopy(self.main.actor)
         self.target.critic = copy.deepcopy(self.main.critic)
 
