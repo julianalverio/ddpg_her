@@ -26,7 +26,6 @@ class RolloutWorker:
         self.info_keys = [key.replace('info_', '') for key in params['dims'].keys() if key.startswith('info_')]
 
         self.reset_all_rollouts()
-
         self.torch_counter = 0
 
     def reset_all_rollouts(self):
