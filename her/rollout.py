@@ -100,4 +100,3 @@ class RolloutWorker:
         episode_batch['o'] = np.clip(episode_batch['o'], -self.clip_obs, self.clip_obs)
         return episode_batch
 
-    def save_frames(self):
