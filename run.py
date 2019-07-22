@@ -119,12 +119,12 @@ def main():
     args = parse_args()
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
-    print('\n\n\n DONE MAKING ENVS')
     seed = set_seed(args.seed)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
     PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, seed)
     shutil.rmtree(PARAMS['log_dir'], ignore_errors=True)
+    print('logging to:', PARAMS['log_dir'])
     writer = SummaryWriter(PARAMS['log_dir'])
 
     policy = DDPG(PARAMS)
