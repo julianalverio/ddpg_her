@@ -10,8 +10,12 @@ class ActorCritic(nn.Module):
 
         self.o_stats = o_stats
         self.g_stats = g_stats
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def compute_all(self, obs, goal, actions):
+        obs = obs.to(self.device)
+        goal = goal.to(self.device)
+        actions = actions.to(self.device)
         obs = self.o_stats.normalize(obs)
         goal = self.g_stats.normalize(goal)
         obs = torch.tensor(obs)
@@ -27,6 +31,8 @@ class ActorCritic(nn.Module):
         self.q_tf = self.critic(critic_input)
 
     def get_action(self, obs, goals):
+        obs = obs.to(self.device)
+        goals = goals.to(self.device)
         obs = self.o_stats.normalize(obs)
         goals = self.g_stats.normalize(goals)
         obs = torch.tensor(obs)
@@ -35,6 +41,9 @@ class ActorCritic(nn.Module):
         return self.actor(policy_input)
 
     def compute_q_values(self, obs, goals, actions):
+        obs = obs.to(self.device)
+        goals = goals.to(self.device)
+        actions = actions.to(self.device)
         obs = self.o_stats.normalize(obs)
         goals = self.g_stats.normalize(goals)
         obs = torch.tensor(obs)

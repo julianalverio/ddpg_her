@@ -47,6 +47,7 @@ class DDPG(object):
         self.clip_return = params['clip_return']
         self.sample_transitions = params['sample_her_transitions']
         self.gamma = params['gamma']
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         self.dimo = self.input_dims['o']
         self.dimg = self.input_dims['g']
@@ -129,7 +130,7 @@ class DDPG(object):
                                 target_batch['u'])
 
         # Q function loss
-        rewards = torch.tensor(main_batch['r'].astype(np.float32))
+        rewards = torch.tensor(main_batch['r'].astype(np.float32)).to(self.device)
         discounted_reward = self.gamma * self.target.q_pi_tf
         target_tf = torch.clamp(rewards + discounted_reward, -self.clip_return, 0.)
         q_loss_tf = torch.nn.MSELoss()(target_tf.detach(), self.main.q_tf)
@@ -175,8 +176,8 @@ class DDPG(object):
         self.o_stats = Normalizer(size=self.dimo, eps=self.norm_eps, default_clip_range=self.norm_clip)
         self.g_stats = Normalizer(size=self.dimg, eps=self.norm_eps, default_clip_range=self.norm_clip)
 
-        self.main = ActorCritic(self.o_stats, self.g_stats, self.input_dims)
-        self.target = ActorCritic(self.o_stats, self.g_stats, self.input_dims)
+        self.main = ActorCritic(self.o_stats, self.g_stats, self.input_dims).to(self.device)
+        self.target = ActorCritic(self.o_stats, self.g_stats, self.input_dims).to(self.device)
         self.target.actor = copy.deepcopy(self.main.actor)
         self.target.critic = copy.deepcopy(self.main.critic)
 
