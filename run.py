@@ -94,7 +94,7 @@ def get_dims(env):
 def train(policy, rollout_worker, evaluator, writer):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
-        print('epoch:', epoch+1, 'of', n_epochs)
+        print('epoch:', epoch, 'of', n_epochs)
         for _ in range(PARAMS['n_cycles']):
             episode = rollout_worker.generate_rollouts()
             policy.store_episode(episode)
@@ -105,6 +105,7 @@ def train(policy, rollout_worker, evaluator, writer):
         # test
         test_scores = []
         for _ in range(PARAMS['n_test_rollouts']):
+            import pdb; pdb.set_trace()
             evaluator.generate_rollouts()
             test_scores.append(evaluator.mean_success)
         writer.add_scalar('score', np.mean(test_scores), epoch)
