@@ -57,7 +57,7 @@ class RolloutWorker:
                 random_eps=self.random_eps)
 
             # compute new states and observations
-            actions = actions.detach().numpy()  # addition!! caution!!
+            actions = actions.cpu().detach().numpy()  # addition!! caution!!
             obs_dict_new, _, done, info = self.venv.step(actions)
             o_new = obs_dict_new['observation']
             ag_new = obs_dict_new['achieved_goal']
