@@ -13,6 +13,8 @@ import random
 from her.ddpg import DDPG
 import GPUtil
 from her.her_sampler import make_sample_her_transitions
+from torch.utils.tensorboard import SummaryWriter
+
 
 PARAMS = {
     'lr': 0.001,
@@ -89,7 +91,7 @@ def get_dims(env):
     PARAMS['dims'] = dims
 
 
-def train(policy, rollout_worker, evaluator):
+def train(policy, rollout_worker, evaluator, writer):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
         print('epoch:', epoch+1, 'of', n_epochs)
@@ -101,8 +103,11 @@ def train(policy, rollout_worker, evaluator):
             policy.torch_update_target_net()
 
         # test
+        test_scores = []
         for _ in range(PARAMS['n_test_rollouts']):
             evaluator.generate_rollouts()
+            test_scores.append(evaluator.mean_success)
+        writer.add_scalar('score', np.mean(test_scores), epoch)
 
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
@@ -119,13 +124,12 @@ def main():
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
     PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, seed)
     shutil.rmtree(PARAMS['log_dir'], ignore_errors=True)
+    writer = SummaryWriter(PARAMS['log_dir'])
 
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True)
-    train(policy, rollout_worker, evaluator)
-
-    train(policy=policy, rollout_worker=rollout_worker, evaluator=evaluator)
+    train(policy, rollout_worker, evaluator, writer)
 
 
 if __name__ == '__main__':

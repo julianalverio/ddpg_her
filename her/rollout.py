@@ -1,5 +1,4 @@
 import numpy as np
-from torch.utils.tensorboard import SummaryWriter
 
 
 class RolloutWorker:
@@ -19,6 +18,7 @@ class RolloutWorker:
         self.T = params['T']
         self.rollout_batch_size = params['num_envs']
         self.clip_obs = params['clip_obs']
+        self.evaluate = evaluate
 
         self.noise_eps = params['noise_eps'] if not evaluate else 0
         self.random_eps = params['random_eps'] if not evaluate else 0
@@ -27,8 +27,6 @@ class RolloutWorker:
 
         self.reset_all_rollouts()
 
-        self.writer = SummaryWriter(params['log_dir'])
-        self.counter = 0
         self.torch_counter = 0
 
     def reset_all_rollouts(self):
@@ -81,11 +79,7 @@ class RolloutWorker:
             o[...] = o_new
             ag[...] = ag_new
 
-        import pdb; pdb.set_trace()
-        mean = np.mean([int(np.any(success)) for success in successes])
-        print('epoch %s: %s' % (self.counter, mean))
-        self.writer.add_scalar('success rate', mean, self.counter)
-        self.counter += 1
+        self.mean_success = np.mean([int(np.any(success)) for success in successes])
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
