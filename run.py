@@ -67,7 +67,7 @@ def parse_args():
     arg_parser.add_argument('--num_timesteps', type=float, default=1e6),
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
-    arg_parser.add_argument('--record', type=bool, default=False)
+    arg_parser.add_argument('--record', type=bool, action='store_true')
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
