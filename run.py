@@ -111,6 +111,7 @@ def train(policy, rollout_worker, evaluator):
 def main():
     choose_gpu()
     args = parse_args()
+    seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     print('\n\n\n DONE MAKING ENVS')
     seed = set_seed(args.seed)
