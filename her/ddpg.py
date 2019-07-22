@@ -80,12 +80,12 @@ class DDPG(object):
         actions = self.main.get_action(o, g)
 
         noise = (noise_eps * np.random.randn(actions.shape[0], 4)).astype(np.float32)
-        actions += torch.tensor(noise)
+        actions += torch.tensor(noise).to(self.device)
 
         actions = torch.clamp(actions, -1., 1.)
         eps_greedy_noise = np.random.binomial(1, random_eps, actions.shape[0]).reshape(-1, 1)
-        random_action = self.torch_random_action(actions.shape[0])
-        actions += torch.tensor(eps_greedy_noise.astype(np.float32)) * (
+        random_action = self.torch_random_action(actions.shape[0]).to(self.device)
+        actions += torch.tensor(eps_greedy_noise.astype(np.float32)).to(self.device) * (
                     random_action - actions)  # eps-greedy
         return actions
 
