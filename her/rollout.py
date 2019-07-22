@@ -2,7 +2,7 @@ import numpy as np
 
 
 class RolloutWorker:
-    def __init__(self, venv, policy, params, evaluate=False):
+    def __init__(self, venv, policy, params, evaluate=False, record=False):
         """Rollout worker generates experience by interacting with one or many environments.
 
         Args:
@@ -26,7 +26,8 @@ class RolloutWorker:
         self.info_keys = [key.replace('info_', '') for key in params['dims'].keys() if key.startswith('info_')]
 
         self.reset_all_rollouts()
-        self.torch_counter = 0
+        self.record = record
+        self.frames = []
 
     def reset_all_rollouts(self):
         self.obs_dict = self.venv.reset()
@@ -56,7 +57,7 @@ class RolloutWorker:
                 random_eps=self.random_eps)
 
             # compute new states and observations
-            actions = actions.cpu().detach().numpy()  # addition!! caution!!
+            actions = actions.cpu().detach().numpy()
             obs_dict_new, _, done, info = self.venv.step(actions)
             o_new = obs_dict_new['observation']
             ag_new = obs_dict_new['achieved_goal']
@@ -75,6 +76,8 @@ class RolloutWorker:
             goals.append(self.g.copy())
             o[...] = o_new
             ag[...] = ag_new
+            import pdb; pdb.set_trace()
+            self.frames.append(self.venv.render(mode='rgb_array'))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
 
@@ -96,3 +99,5 @@ class RolloutWorker:
 
         episode_batch['o'] = np.clip(episode_batch['o'], -self.clip_obs, self.clip_obs)
         return episode_batch
+
+    def save_frames(self):

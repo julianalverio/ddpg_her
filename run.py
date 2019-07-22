@@ -67,6 +67,7 @@ def parse_args():
     arg_parser.add_argument('--num_timesteps', type=float, default=1e6),
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
+    arg_parser.add_argument('--record', type=bool, default=False)
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
@@ -129,7 +130,7 @@ def main():
 
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
-    evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True)
+    evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
     train(policy, rollout_worker, evaluator, writer)
 
 
