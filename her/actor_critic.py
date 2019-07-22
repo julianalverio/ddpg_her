@@ -10,29 +10,20 @@ class ActorCritic(nn.Module):
 
         self.o_stats = o_stats
         self.g_stats = g_stats
-        self.pi_tf = None
-        self.q_pi_tf = None
-        self.q_tf = None
 
     def compute_all(self, obs, goal, actions):
         obs = self.o_stats.normalize(obs)
         goal = self.g_stats.normalize(goal)
         obs = torch.tensor(obs)
         goal = torch.tensor(goal)
-        self.critic_input_o = obs
-        self.critic_input_g = goal
         policy_input = torch.cat([obs, goal], dim=1)
-        self.policy_input = policy_input
         policy_output = self.actor(policy_input)
         # temporary
-        self.policy_output = policy_output
         self.pi_tf = policy_output
         critic_input = torch.cat([obs, goal, policy_output], dim=1)
-        self.critic_input = critic_input
         self.q_pi_tf = self.critic(critic_input)
         actions = torch.tensor(actions)
         critic_input = torch.cat([obs, goal, actions], dim=1)
-        self.final_critic_input = critic_input
         self.q_tf = self.critic(critic_input)
 
     def get_action(self, obs, goals):
