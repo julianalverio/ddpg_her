@@ -116,6 +116,13 @@ def train(policy, rollout_worker, evaluator, writer):
 
 
 def main():
+    import gym
+    test_env = gym.make('FetchPickAndPlace-v1')
+    test_env.reset()
+    test_env.render(mode='rgb_array')
+    import pdb; pdb.set_trace()
+
+
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
