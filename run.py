@@ -105,7 +105,6 @@ def train(policy, rollout_worker, evaluator, writer):
         # test
         test_scores = []
         for _ in range(PARAMS['n_test_rollouts']):
-            import pdb; pdb.set_trace()
             evaluator.generate_rollouts()
             test_scores.append(evaluator.mean_success)
         writer.add_scalar('score', np.mean(test_scores), epoch)
