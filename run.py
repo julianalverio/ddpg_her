@@ -108,6 +108,7 @@ def train(policy, rollout_worker, evaluator, writer):
             evaluator.generate_rollouts()
             test_scores.append(evaluator.mean_success)
         writer.add_scalar('score', np.mean(test_scores), epoch)
+        print('epoch %s: %s' % (epoch, np.mean(test_scores)))
 
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
