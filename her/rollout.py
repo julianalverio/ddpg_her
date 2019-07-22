@@ -31,7 +31,6 @@ class RolloutWorker:
 
     def reset_all_rollouts(self):
         self.obs_dict = self.venv.reset()
-        # self.initial_o = np.clip(self.obs_dict['observation'], self.clip_obs, -self.clip_obs)
         self.initial_o = self.obs_dict['observation']
         self.initial_ag = self.obs_dict['achieved_goal']
         self.g = self.obs_dict['desired_goal'].astype(np.float32)
@@ -77,10 +76,8 @@ class RolloutWorker:
             goals.append(self.g.copy())
             o[...] = o_new
             ag[...] = ag_new
-            import pdb; pdb.set_trace()
 
-
-        # self.mean_success = np.mean([np.mean(success)) for success in successes])
+        self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
