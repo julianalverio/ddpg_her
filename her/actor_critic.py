@@ -13,41 +13,33 @@ class ActorCritic(nn.Module):
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def compute_all(self, obs, goal, actions):
-        obs = obs.to(self.device)
-        goal = goal.to(self.device)
-        actions = actions.to(self.device)
         obs = self.o_stats.normalize(obs)
         goal = self.g_stats.normalize(goal)
-        obs = torch.tensor(obs)
-        goal = torch.tensor(goal)
+        obs = torch.tensor(obs).to(self.device)
+        goal = torch.tensor(goal).to(self.device)
         policy_input = torch.cat([obs, goal], dim=1)
         policy_output = self.actor(policy_input)
         # temporary
         self.pi_tf = policy_output
         critic_input = torch.cat([obs, goal, policy_output], dim=1)
         self.q_pi_tf = self.critic(critic_input)
-        actions = torch.tensor(actions)
+        actions = torch.tensor(actions).to(self.device)
         critic_input = torch.cat([obs, goal, actions], dim=1)
         self.q_tf = self.critic(critic_input)
 
     def get_action(self, obs, goals):
-        obs = obs.to(self.device)
-        goals = goals.to(self.device)
         obs = self.o_stats.normalize(obs)
         goals = self.g_stats.normalize(goals)
-        obs = torch.tensor(obs)
-        goals = torch.tensor(goals)
+        obs = torch.tensor(obs).to(self.device)
+        goals = torch.tensor(goals).to(self.device)
         policy_input = torch.cat([obs, goals], dim=1)
         return self.actor(policy_input)
 
     def compute_q_values(self, obs, goals, actions):
-        obs = obs.to(self.device)
-        goals = goals.to(self.device)
-        actions = actions.to(self.device)
         obs = self.o_stats.normalize(obs)
         goals = self.g_stats.normalize(goals)
-        obs = torch.tensor(obs)
-        goals = torch.tensor(goals)
+        obs = torch.tensor(obs).to(self.device)
+        goals = torch.tensor(goals).to(self.device)
         input_tensor = torch.cat([obs, goals, actions], dim=1)
         return self.critic(input_tensor)
 
