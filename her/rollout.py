@@ -81,6 +81,7 @@ class RolloutWorker:
             o[...] = o_new
             ag[...] = ag_new
 
+        import pdb; pdb.set_trace()
         mean = np.mean(successes)
         print('epoch %s: %s' % (self.counter, mean))
         self.writer.add_scalar('success rate', mean, self.counter)
