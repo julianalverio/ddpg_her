@@ -79,6 +79,7 @@ class RolloutWorker:
             o[...] = o_new
             ag[...] = ag_new
 
+        import pdb; pdb.set_trace()
         self.mean_success = np.mean([int(np.any(success)) for success in successes])
 
         obs.append(o.copy())
