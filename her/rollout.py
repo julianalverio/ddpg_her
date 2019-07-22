@@ -60,7 +60,6 @@ class RolloutWorker:
             # compute new states and observations
             actions = actions.detach().numpy()  # addition!! caution!!
             obs_dict_new, _, done, info = self.venv.step(actions)
-            # o_new = np.clip(obs_dict_new['observation'], self.clip_obs, -self.clip_obs)
             o_new = obs_dict_new['observation']
             ag_new = obs_dict_new['achieved_goal']
             success = np.array([i['is_success'] for i in info])
@@ -78,8 +77,10 @@ class RolloutWorker:
             goals.append(self.g.copy())
             o[...] = o_new
             ag[...] = ag_new
+            import pdb; pdb.set_trace()
 
-        self.mean_success = np.mean([int(np.any(success)) for success in successes])
+
+        # self.mean_success = np.mean([np.mean(success)) for success in successes])
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
