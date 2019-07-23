@@ -2,7 +2,6 @@ from collections import OrderedDict
 import numpy as np
 from her.normalizer import Normalizer
 from her.replay_buffer import ReplayBuffer
-from common.mpi_adam_torch import MpiAdam as MpiAdamTorch
 from her.actor_critic import ActorCritic
 
 import torch
