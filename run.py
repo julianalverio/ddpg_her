@@ -122,6 +122,7 @@ def main():
     test_env.reset()
     assert test_env.render(mode='rgb_array') is not None
 
+
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
