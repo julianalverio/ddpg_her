@@ -148,6 +148,7 @@ def main():
     PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, seed)
     shutil.rmtree(PARAMS['log_dir'], ignore_errors=True)
     PARAMS['save'] = args.save
+    PARAMS['env'] = args.env
     print('logging to:', PARAMS['log_dir'])
     writer = SummaryWriter(PARAMS['log_dir'])
 
