@@ -116,7 +116,6 @@ def train(policy, rollout_worker, evaluator, writer):
 
 
 def main():
-    import pdb; pdb.set_trace()
     import gym
     test_env = gym.make('FetchPickAndPlace-v1')
     test_env.reset()
