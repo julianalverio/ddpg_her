@@ -48,6 +48,7 @@ class SubprocVecEnv(VecEnv):
         env_fns: iterable of callables -  functions that create environments to run in subprocesses. Need to be cloud-pickleable
         """
         self.waiting = False
+        import pdb; pdb.set_trace()
         self.closed = False
         nenvs = len(env_fns)
         ctx = mp.get_context(context)
