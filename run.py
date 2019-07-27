@@ -132,7 +132,7 @@ def generate_videos(policy, evaluator, args):
     #     if int(model.split('_')) >= 30
 
     models_saved = 0
-    while models_saved < args.record:
+    # while models_saved < args.record:
 
 
 
