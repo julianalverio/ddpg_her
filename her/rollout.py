@@ -76,8 +76,6 @@ class RolloutWorker:
             goals.append(self.g.copy())
             o[...] = o_new
             ag[...] = ag_new
-            import pdb; pdb.set_trace()
-            self.frames.append(self.venv.render(mode='rgb_array'))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
 
@@ -99,4 +97,3 @@ class RolloutWorker:
 
         episode_batch['o'] = np.clip(episode_batch['o'], -self.clip_obs, self.clip_obs)
         return episode_batch
-

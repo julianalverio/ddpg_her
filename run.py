@@ -68,6 +68,7 @@ def parse_args():
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
     arg_parser.add_argument('--record', action='store_true')
+    arg_parser.add_argument('--save', action='store_true')
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
@@ -121,9 +122,10 @@ def main():
     test_env.reset()
     assert test_env.render(mode='rgb_array') is not None
 
-
     choose_gpu()
     args = parse_args()
+    if args.save:
+        shutil.rmtree('/storage/jalverio/ddpg_her/ddpg_models')
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     seed = set_seed(args.seed)
