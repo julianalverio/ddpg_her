@@ -24,7 +24,6 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 remote.close()
                 break
             elif cmd == 'get_spaces_spec':
-                import pdb; pdb.set_trace()
                 print('DOING SPACES SPEC')
                 print(type(env))
                 print(dir(env))
