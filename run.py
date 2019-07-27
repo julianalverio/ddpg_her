@@ -93,7 +93,7 @@ def get_dims(env):
     PARAMS['dims'] = dims
 
 
-def train(policy, rollout_worker, evaluator, writer):
+def train(policy, rollout_worker, evaluator, writer, save):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
         print('epoch:', epoch, 'of', n_epochs)
@@ -112,6 +112,8 @@ def train(policy, rollout_worker, evaluator, writer):
         writer.add_scalar('score', np.mean(test_scores), epoch)
         print('epoch %s: %s' % (epoch, np.mean(test_scores)))
 
+        evaluator.save(epoch)
+
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
 
@@ -123,9 +125,16 @@ def generate_videos(policy, evaluator, args):
         task = 'push'
     if args.env == 'FetchPickAndPlace-v1':
         task = 'pickandplace'
+
+    # WARM START CODE HERE
     # check that the epoch number is greater than 30 and then load
     # for model in os.listdir('/storage/jalverio/ddpg_her/models'):
     #     if int(model.split('_')) >= 30
+
+    models_saved = 0
+    while models_saved < args.record:
+
+
 
 
 
@@ -156,7 +165,7 @@ def main():
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
     if not args.record:
-        train(policy, rollout_worker, evaluator, writer)
+        train(policy, rollout_worker, evaluator, writer, args.save)
     else:
         generate_videos(policy, evaluator, args)
 
