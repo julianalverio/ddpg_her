@@ -21,7 +21,7 @@ class RolloutWorker:
         self.rollout_batch_size = params['num_envs']
         self.clip_obs = params['clip_obs']
         self.evaluate = evaluate
-        self.save_models = params.save
+        self.save_models = params['save']
 
         if 'pick' in params.env.lower():
             self.task = 'pickandplace'
@@ -114,6 +114,7 @@ class RolloutWorker:
 
     def save(self):
         print('saving now')
+        import pdb; pdb.set_trace()
         prefix = '/storage/jalverio/ddpg_her/models/'
         epochs = [int(epoch) for epoch in os.listdir(prefix)]
         if not epochs:
