@@ -138,6 +138,7 @@ def generate_videos(policy, evaluator, args):
 
 
 
+
 def main():
     import gym
     test_env = gym.make('FetchPickAndPlace-v1')

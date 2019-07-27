@@ -108,13 +108,12 @@ class RolloutWorker:
 
         episode_batch['o'] = np.clip(episode_batch['o'], -self.clip_obs, self.clip_obs)
 
-        if self.save_models:
-            self.save()
-
         return episode_batch
 
     def save(self, epoch):
         print('saving now')
+        # if epoch < 30:
+        #     return
         prefix = '/storage/jalverio/ddpg_her/models/'
         save_dir = '%s%s_%s' % (prefix, self.task, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)
