@@ -123,7 +123,9 @@ def generate_videos(policy, evaluator, args):
         task = 'push'
     if args.env == 'FetchPickAndPlace-v1':
         task = 'pickandplace'
-    models = [model for model in os.listdir('/storage/jalverio/ddpg_her/models')]
+    # check that the epoch number is greater than 30 and then load
+    # for model in os.listdir('/storage/jalverio/ddpg_her/models'):
+    #     if int(model.split('_')) >= 30
 
 
 

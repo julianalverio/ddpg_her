@@ -1,4 +1,6 @@
 import numpy as np
+import os
+import torch
 
 
 class RolloutWorker:
@@ -19,6 +21,14 @@ class RolloutWorker:
         self.rollout_batch_size = params['num_envs']
         self.clip_obs = params['clip_obs']
         self.evaluate = evaluate
+        self.save_models = params.save
+
+        if 'pick' in params.env.lower():
+            self.task = 'pickandplace'
+        if 'push' in params.env.lower():
+            self.task = 'push'
+        if 'reach' in params.env.lower():
+            self.task = 'reach'
 
         self.noise_eps = params['noise_eps'] if not evaluate else 0
         self.random_eps = params['random_eps'] if not evaluate else 0
@@ -96,4 +106,21 @@ class RolloutWorker:
             episode_batch[key] = val.swapaxes(0, 1)
 
         episode_batch['o'] = np.clip(episode_batch['o'], -self.clip_obs, self.clip_obs)
+
+        if self.save_models:
+            self.save()
+
         return episode_batch
+
+    def save(self):
+        print('saving now')
+        prefix = '/storage/jalverio/ddpg_her/models/'
+        epochs = [int(epoch) for epoch in os.listdir(prefix)]
+        if not epochs:
+            current_epoch = 0
+        else:
+            current_epoch = max(epochs)
+        save_dir = '%s%s_%s' % (prefix, self.task, current_epoch)
+        os.mkdir(save_dir)
+        torch.save(self.policy.main.actor.state_dict(), save_dir + '/actor')
+        torch.save(self.policy.main.critic.state_dict(), save_dir + '/critic')

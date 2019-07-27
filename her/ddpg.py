@@ -3,6 +3,7 @@ import numpy as np
 from her.normalizer import Normalizer
 from her.replay_buffer import ReplayBuffer
 from her.actor_critic import ActorCritic
+import os
 
 import torch
 import copy
@@ -146,7 +147,6 @@ class DDPG(object):
         pi_loss_tf.backward()
         self.actor_optimizer.step()
 
-    # TODO: use load_state_dict here
     def torch_update_target_net(self):
         beta = 1. - self.polyak
 
@@ -171,7 +171,6 @@ class DDPG(object):
         self.target.critic.linear4.bias = torch.nn.Parameter(beta * self.main.critic.linear4.bias + self.polyak * self.target.critic.linear4.bias)
 
     def torch_create_network(self):
-        # for actor network
         self.o_stats = Normalizer(size=self.dimo, eps=self.norm_eps, default_clip_range=self.norm_clip)
         self.g_stats = Normalizer(size=self.dimg, eps=self.norm_eps, default_clip_range=self.norm_clip)
 
@@ -180,6 +179,5 @@ class DDPG(object):
         self.target.actor = copy.deepcopy(self.main.actor)
         self.target.critic = copy.deepcopy(self.main.critic)
 
-        # use MPI_ADAM instead
         self.actor_optimizer = optim.Adam(self.main.actor.parameters(), lr=self.pi_lr)
         self.critic_optimizer = optim.Adam(self.main.critic.parameters(), lr=self.Q_lr)
