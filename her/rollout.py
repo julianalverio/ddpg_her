@@ -120,4 +120,3 @@ class RolloutWorker:
         os.mkdir(save_dir)
         torch.save(self.policy.main.actor.state_dict(), save_dir + '/actor')
         torch.save(self.policy.main.critic.state_dict(), save_dir + '/critic')
-        self.epoch += 1
