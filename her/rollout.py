@@ -114,7 +114,6 @@ class RolloutWorker:
 
     def save(self):
         print('saving now')
-        import pdb; pdb.set_trace()
         prefix = '/storage/jalverio/ddpg_her/models/'
         epochs = [int(epoch) for epoch in os.listdir(prefix)]
         if not epochs:

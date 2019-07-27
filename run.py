@@ -68,7 +68,7 @@ def parse_args():
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
     arg_parser.add_argument('--save', action='store_true')
-    arg_parser.add_argument('--record', type=int, default=100)
+    arg_parser.add_argument('--record', type=int, default=0)
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
@@ -155,6 +155,7 @@ def main():
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
+    import pdb; pdb.set_trace()
     if not args.record:
         train(policy, rollout_worker, evaluator, writer)
     else:
