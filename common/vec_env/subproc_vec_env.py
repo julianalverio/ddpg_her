@@ -27,7 +27,7 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 print('DOING SPACES SPEC')
                 print(type(env))
                 print(dir(env))
-                remote.send((env.observation_space, env.action_space, env.spec))
+                remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
             else:
                 raise NotImplementedError
     except KeyboardInterrupt:
