@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import torch
+import shutil
 
 
 class RolloutWorker:
@@ -38,6 +39,7 @@ class RolloutWorker:
         self.reset_all_rollouts()
         self.record = record
         self.frames = []
+        self.epoch = 0 # used for saving
 
     def reset_all_rollouts(self):
         self.obs_dict = self.venv.reset()
@@ -115,12 +117,9 @@ class RolloutWorker:
     def save(self):
         print('saving now')
         prefix = '/storage/jalverio/ddpg_her/models/'
-        epochs = [int(epoch.split('_')[1]) for epoch in os.listdir(prefix)]
-        if not epochs:
-            current_epoch = 0
-        else:
-            current_epoch = max(epochs)
-        save_dir = '%s%s_%s' % (prefix, self.task, current_epoch)
+        save_dir = '%s%s_%s' % (prefix, self.task, self.epoch)
+        shutil.rmtree(save_dir, ignore_errors=True)
         os.mkdir(save_dir)
         torch.save(self.policy.main.actor.state_dict(), save_dir + '/actor')
         torch.save(self.policy.main.critic.state_dict(), save_dir + '/critic')
+        self.epoch += 1
