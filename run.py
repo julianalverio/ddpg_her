@@ -67,8 +67,8 @@ def parse_args():
     arg_parser.add_argument('--num_timesteps', type=float, default=1e6),
     arg_parser.add_argument('--num_envs', default=None, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
-    arg_parser.add_argument('--record', action='store_true')
     arg_parser.add_argument('--save', action='store_true')
+    arg_parser.add_argument('--record', type=int, default=100)
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
@@ -116,6 +116,17 @@ def train(policy, rollout_worker, evaluator, writer):
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
 
 
+def generate_videos(policy, evaluator, args):
+    if args.env == 'FetchReach-v1':
+        task = 'reach'
+    if args.env == 'FetchPush-v1':
+        task = 'push'
+    if args.env == 'FetchPickAndPlace-v1':
+        task = 'pickandplace'
+    models = [model for model in os.listdir('/storage/jalverio/ddpg_her/models')]
+
+
+
 def main():
     import gym
     test_env = gym.make('FetchPickAndPlace-v1')
@@ -125,7 +136,8 @@ def main():
     choose_gpu()
     args = parse_args()
     if args.save:
-        shutil.rmtree('/storage/jalverio/ddpg_her/ddpg_models')
+        shutil.rmtree('/storage/jalverio/ddpg_her/models', ignore_errors=True)
+        os.mkdir('/storage/jalverio/ddpg_her/ddpg_models')
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     seed = set_seed(args.seed)
@@ -139,7 +151,11 @@ def main():
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
-    train(policy, rollout_worker, evaluator, writer)
+    if not args.record:
+        train(policy, rollout_worker, evaluator, writer)
+    else:
+        generate_videos(policy, evaluator, args)
+
 
 
 if __name__ == '__main__':
