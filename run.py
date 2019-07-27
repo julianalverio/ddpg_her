@@ -147,6 +147,7 @@ def main():
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
     PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, seed)
     shutil.rmtree(PARAMS['log_dir'], ignore_errors=True)
+    PARAMS['save'] = args.save
     print('logging to:', PARAMS['log_dir'])
     writer = SummaryWriter(PARAMS['log_dir'])
 
