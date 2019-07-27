@@ -23,11 +23,11 @@ class RolloutWorker:
         self.evaluate = evaluate
         self.save_models = params['save']
 
-        if 'pick' in params.env.lower():
+        if 'pick' in params['env'].lower():
             self.task = 'pickandplace'
-        if 'push' in params.env.lower():
+        if 'push' in params['env'].lower():
             self.task = 'push'
-        if 'reach' in params.env.lower():
+        if 'reach' in params['env'].lower():
             self.task = 'reach'
 
         self.noise_eps = params['noise_eps'] if not evaluate else 0
