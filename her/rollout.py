@@ -115,7 +115,7 @@ class RolloutWorker:
     def save(self):
         print('saving now')
         prefix = '/storage/jalverio/ddpg_her/models/'
-        epochs = [int(epoch) for epoch in os.listdir(prefix)]
+        epochs = [int(epoch.split('_')[1]) for epoch in os.listdir(prefix)]
         if not epochs:
             current_epoch = 0
         else:

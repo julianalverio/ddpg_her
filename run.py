@@ -155,7 +155,6 @@ def main():
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
-    import pdb; pdb.set_trace()
     if not args.record:
         train(policy, rollout_worker, evaluator, writer)
     else:
