@@ -149,7 +149,6 @@ def main():
     assert test_env.render(mode='rgb_array') is not None
     test_env.render()
     test_env.step([0, 0, 0, 0])
-    import pdb; pdb.set_trace()
 
     choose_gpu()
     args = parse_args()
