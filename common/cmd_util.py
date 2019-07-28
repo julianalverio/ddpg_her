@@ -31,7 +31,7 @@ def make_vec_env(env_id, env_type, num_env, seed, reward_type,
     mpi_rank = MPI.COMM_WORLD.Get_rank() if MPI else 0
     seed = seed + 10000 * mpi_rank if seed is not None else None
     logger_dir = logger.get_dir()
-    def make_thunk(rank):
+    def make_thunk(rank, reward_type):
         return lambda: make_env(
             env_id=env_id,
             env_type=env_type,
