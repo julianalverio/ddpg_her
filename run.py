@@ -169,7 +169,7 @@ def main():
     if not args.record:
         train(policy, rollout_worker, evaluator, writer, args.save)
     else:
-        generate_videos(policy, evaluator, args)
+        generate_videos(evaluator, args)
 
 
 
