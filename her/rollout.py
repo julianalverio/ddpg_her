@@ -95,6 +95,7 @@ class RolloutWorker:
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
 
         if self.record:
+            import pdb; pdb.set_trace()
             success_idxs = np.where(np.array(successes)[-1, :])
             return np.array(self.frames)[:, success_idxs]
 
