@@ -126,8 +126,8 @@ def generate_videos(evaluator, args):
     else:
         task = 'reach'
 
-    models_saved = 0
-    while models_saved < args.record:
+    images_saved = 0
+    while images_saved < args.record:
         prefix = '/storage/jalverio/ddpg_her/models/'
         warmstart_path = random.choice(os.listdir(prefix))
         print(warmstart_path)
@@ -136,7 +136,8 @@ def generate_videos(evaluator, args):
         if np.any([size == 0 for size in videos.shape]):
             continue
         evaluator.save_videos(videos, task)
-        models_saved += videos.shape[1]
+        images_saved += videos.shape[1]
+        print('total images saved:' % images_saved)
 
 
 def main():
@@ -144,11 +145,13 @@ def main():
     test_env = gym.make('FetchPickAndPlace-v1')
     test_env.reset()
     assert test_env.render(mode='rgb_array') is not None
+    test_env.render()
+    import pdb; pdb.set_trace()
 
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
-    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
+    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type='visual')
     seed = set_seed(args.seed)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])

@@ -18,7 +18,7 @@ from common.vec_env.subproc_vec_env import SubprocVecEnv
 from common.vec_env.dummy_vec_env import DummyVecEnv
 from common import retro_wrappers
 
-def make_vec_env(env_id, env_type, num_env, seed,
+def make_vec_env(env_id, env_type, num_env, seed, reward_type,
                  wrapper_kwargs=None,
                  start_index=0,
                  reward_scale=1.0,
@@ -42,17 +42,18 @@ def make_vec_env(env_id, env_type, num_env, seed,
             gamestate=gamestate,
             flatten_dict_observations=flatten_dict_observations,
             wrapper_kwargs=wrapper_kwargs,
-            logger_dir=logger_dir
+            logger_dir=logger_dir,
+            reward_type=reward_type
         )
 
     set_global_seeds(seed)
     if num_env > 1:
-        return SubprocVecEnv([make_thunk(i + start_index) for i in range(num_env)])
+        return SubprocVecEnv([make_thunk(i + start_index, reward_type) for i in range(num_env)])
     else:
         return DummyVecEnv([make_thunk(start_index)])
 
 
-def make_env(env_id, env_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.0, gamestate=None, flatten_dict_observations=True, wrapper_kwargs=None, logger_dir=None):
+def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.0, gamestate=None, flatten_dict_observations=True, wrapper_kwargs=None, logger_dir=None):
     wrapper_kwargs = wrapper_kwargs or {}
     if env_type == 'atari':
         env = make_atari(env_id)
@@ -61,7 +62,7 @@ def make_env(env_id, env_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.
         gamestate = gamestate or retro.State.DEFAULT
         env = retro_wrappers.make_retro(game=env_id, max_episode_steps=10000, use_restricted_actions=retro.Actions.DISCRETE, state=gamestate)
     else:
-        env = gym.make(env_id)
+        env = gym.make(env_id, reward_type)
 
     if flatten_dict_observations and isinstance(env.observation_space, gym.spaces.Dict):
         keys = env.observation_space.spaces.keys()
