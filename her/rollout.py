@@ -122,8 +122,8 @@ class RolloutWorker:
         return episode_batch
 
     def save(self, epoch):
-        # if epoch < 30:
-        #     return
+        if epoch < 40:
+            return
         prefix = '/storage/jalverio/ddpg_her/models/'
         save_dir = '%s%s_%s' % (prefix, self.task, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)
