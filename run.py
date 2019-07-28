@@ -77,7 +77,7 @@ def parse_args():
 
 def get_dims(env):
     env_name = env.spec.id
-    tmp_env = gym.make(env_name)
+    tmp_env = gym.make(env_name, reward_type='sparse')
     tmp_env.reset()
     obs, _, _, info = tmp_env.step(env.action_space.sample())
     dims = {
