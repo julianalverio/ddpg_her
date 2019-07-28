@@ -118,22 +118,23 @@ def train(policy, rollout_worker, evaluator, writer, save):
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
 
 
-def generate_videos(policy, evaluator, args):
-    if args.env == 'FetchReach-v1':
-        task = 'reach'
+def generate_videos(evaluator, args):
     if args.env == 'FetchPush-v1':
         task = 'push'
-    if args.env == 'FetchPickAndPlace-v1':
-        task = 'pickandplace'
+    elif args.env == 'FetchPickAndPlace-v1':
+        task = 'pickup'
+    else:
+        assert False
 
-
+    import pdb; pdb.set_trace()
     models_saved = 0
     while models_saved < args.record:
         prefix = '/storage/jalverio/ddpg_her/models/'
         import pdb; pdb.set_trace()
         # check the paths here
         evaluator.policy.load_weights(prefix + random.choice(os.listdir(prefix)))
-        evaluator.generate_rollouts()
+        videos = evaluator.generate_rollouts()
+        evaluator.save_videos(videos, task)
 
 
 

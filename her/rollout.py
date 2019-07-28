@@ -127,3 +127,15 @@ class RolloutWorker:
         os.mkdir(save_dir)
         torch.save(self.policy.main.actor.state_dict(), save_dir + '/actor')
         torch.save(self.policy.main.critic.state_dict(), save_dir + '/critic')
+
+    def save_videos(self, videos, task):
+        prefix = '/storage/jalverio/robot_images/videos/%s/' % task
+        idxs = [int(video_idx) for video_idx in os.listdir(prefix)]
+        if idxs:
+            idx = max(idxs) + 1
+        else:
+            idx = 0
+        import pdb; pdb.set_trace()
+        # for loop here to save
+
+
