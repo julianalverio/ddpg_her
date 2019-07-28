@@ -181,3 +181,10 @@ class DDPG(object):
 
         self.actor_optimizer = optim.Adam(self.main.actor.parameters(), lr=self.pi_lr)
         self.critic_optimizer = optim.Adam(self.main.critic.parameters(), lr=self.Q_lr)
+
+    def load_weights(self, model_dir):
+        saved_actor = torch.load(os.path.join(model_dir, 'actor'))
+        saved_critic = torch.load(os.path.join(model_dir, 'critic'))
+
+        self.main.actor.load_state_dict(saved_actor)
+        self.main.critic.load_state_dict(saved_critic)

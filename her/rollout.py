@@ -45,6 +45,7 @@ class RolloutWorker:
         self.initial_o = self.obs_dict['observation']
         self.initial_ag = self.obs_dict['achieved_goal']
         self.g = self.obs_dict['desired_goal'].astype(np.float32)
+        self.frames = []
 
     def generate_rollouts(self):
         """Performs `rollout_batch_size` rollouts in parallel for time horizon `T` with the current
@@ -88,7 +89,14 @@ class RolloutWorker:
             o[...] = o_new
             ag[...] = ag_new
 
+            if self.record:
+                self.frames.append(np.array(self.venv.get_frames()))
+
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
+        import pdb; pdb.set_trace()
+        success_idxs = np.where(successes[-1, :])
+        if self.record:
+            return np.array(self.frames)[success_idxs]
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
@@ -111,9 +119,8 @@ class RolloutWorker:
         return episode_batch
 
     def save(self, epoch):
-        print('saving now')
-        # if epoch < 30:
-        #     return
+        if epoch < 30:
+            return
         prefix = '/storage/jalverio/ddpg_her/models/'
         save_dir = '%s%s_%s' % (prefix, self.task, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)

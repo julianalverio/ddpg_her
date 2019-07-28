@@ -126,13 +126,18 @@ def generate_videos(policy, evaluator, args):
     if args.env == 'FetchPickAndPlace-v1':
         task = 'pickandplace'
 
-    # WARM START CODE HERE
-    # check that the epoch number is greater than 30 and then load
-    # for model in os.listdir('/storage/jalverio/ddpg_her/models'):
-    #     if int(model.split('_')) >= 30
 
     models_saved = 0
-    # while models_saved < args.record:
+    while models_saved < args.record:
+        prefix = '/storage/jalverio/ddpg_her/models/'
+        import pdb; pdb.set_trace()
+        # check the paths here
+        evaluator.policy.load_weights(prefix + random.choice(os.listdir(prefix)))
+        evaluator.generate_rollouts()
+
+
+
+
 
 
 
@@ -164,7 +169,7 @@ def main():
 
     policy = DDPG(PARAMS)
     rollout_worker = RolloutWorker(env, policy, PARAMS)
-    evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=args.record)
+    evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=bool(args.record))
     if not args.record:
         train(policy, rollout_worker, evaluator, writer, args.save)
     else:
