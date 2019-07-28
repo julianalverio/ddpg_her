@@ -126,7 +126,6 @@ def generate_videos(evaluator, args):
     else:
         task = 'reach'
 
-    import pdb; pdb.set_trace()
     models_saved = 0
     while models_saved < args.record:
         prefix = '/storage/jalverio/ddpg_her/models/'
