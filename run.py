@@ -139,7 +139,7 @@ def generate_videos(evaluator, args):
             continue
         evaluator.save_videos(videos, task)
         images_saved += videos.shape[1]
-        print('total images saved:' % images_saved)
+        print('total images saved: %s' % images_saved)
 
 
 def main():
