@@ -1,5 +1,5 @@
-# import sys
-# sys.path.insert(0, '/storage/jalverio/gym/')
+import sys
+sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
 from common.cmd_util import make_vec_env
 import os
@@ -129,7 +129,6 @@ def generate_videos(evaluator, args):
     models_saved = 0
     while models_saved < args.record:
         prefix = '/storage/jalverio/ddpg_her/models/'
-        # check the paths here
         warmstart_path = random.choice(os.listdir(prefix))
         print(warmstart_path)
         evaluator.policy.load_weights(prefix + warmstart_path)
@@ -138,9 +137,6 @@ def generate_videos(evaluator, args):
             continue
         evaluator.save_videos(videos, task)
         models_saved += videos.shape[1]
-
-
-
 
 
 def main():
