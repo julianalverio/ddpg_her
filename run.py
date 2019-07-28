@@ -16,6 +16,7 @@ from her.her_sampler import make_sample_her_transitions
 from torch.utils.tensorboard import SummaryWriter
 
 
+
 PARAMS = {
     'lr': 0.001,
     'buffer_size': int(1E6),
@@ -94,7 +95,7 @@ def get_dims(env):
     PARAMS['dims'] = dims
 
 
-def train(policy, rollout_worker, evaluator, writer, save):
+def train(policy, rollout_worker, evaluator, writer):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
         print('epoch:', epoch, 'of', n_epochs)
@@ -142,12 +143,13 @@ def generate_videos(evaluator, args):
 
 
 def main():
-    # import gym
-    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
-    # test_env.reset()
-    # assert test_env.render(mode='rgb_array') is not None
-    # test_env.render()
-    # import pdb; pdb.set_trace()
+    import gym
+    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
+    test_env.reset()
+    assert test_env.render(mode='rgb_array') is not None
+    test_env.render()
+    test_env.step([0, 0, 0, 0])
+    import pdb; pdb.set_trace()
 
     choose_gpu()
     args = parse_args()
@@ -167,7 +169,7 @@ def main():
     rollout_worker = RolloutWorker(env, policy, PARAMS)
     evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True, record=bool(args.record))
     if not args.record:
-        train(policy, rollout_worker, evaluator, writer, args.save)
+        train(policy, rollout_worker, evaluator, writer)
     else:
         generate_videos(evaluator, args)
 
