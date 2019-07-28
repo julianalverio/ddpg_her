@@ -69,6 +69,7 @@ def parse_args():
     arg_parser.add_argument('--seed', type=int, default=None)
     arg_parser.add_argument('--save', action='store_true')
     arg_parser.add_argument('--record', type=int, default=0)
+    arg_parser.add_argument('--reward_type', type=str, default='sparse', choices=['sparse', 'visual'])
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
@@ -151,7 +152,7 @@ def main():
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
-    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type='visual')
+    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type)
     seed = set_seed(args.seed)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
