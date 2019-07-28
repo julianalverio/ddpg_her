@@ -139,7 +139,8 @@ class RolloutWorker:
         else:
             idx = 0
         for video_idx in range(videos.shape[1]):
-            shutil.rmtree(prefix + str(idx + video_idx), ignore_errors=True)
-            np.save(videos[:, video_idx], prefix + str(idx + video_idx))
+            save_path = prefix + str(idx + video_idx)
+            shutil.rmtree(save_path, ignore_errors=True)
+            np.save(save_path, videos[:, video_idx])
 
 
