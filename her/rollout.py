@@ -94,9 +94,9 @@ class RolloutWorker:
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
         import pdb; pdb.set_trace()
-        success_idxs = np.where(successes[-1, :])
+        success_idxs = np.where(np.array(successes)[-1, :])
         if self.record:
-            return np.array(self.frames)[success_idxs]
+            return np.array(self.frames)[:, success_idxs]
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
@@ -132,10 +132,10 @@ class RolloutWorker:
         prefix = '/storage/jalverio/robot_images/videos/%s/' % task
         idxs = [int(video_idx) for video_idx in os.listdir(prefix)]
         if idxs:
-            idx = max(idxs) + 1
+            idx = str(max(idxs) + 1)
         else:
-            idx = 0
-        import pdb; pdb.set_trace()
-        # for loop here to save
+            idx = str(0)
+        for video_idx in range(videos.shape[1]):
+            np.save(videos[:, video_idx], prefix + idx + video_idx)
 
 

@@ -140,11 +140,6 @@ def generate_videos(evaluator, args):
 
 
 
-
-
-
-
-
 def main():
     import gym
     test_env = gym.make('FetchPickAndPlace-v1')
@@ -156,6 +151,7 @@ def main():
     if args.save:
         shutil.rmtree('/storage/jalverio/ddpg_her/models', ignore_errors=True)
         os.mkdir('/storage/jalverio/ddpg_her/models')
+    import pdb; pdb.set_trace()
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     seed = set_seed(args.seed)
