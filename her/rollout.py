@@ -93,9 +93,9 @@ class RolloutWorker:
                 self.frames.append(np.array(self.venv.get_frames()))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
-        import pdb; pdb.set_trace()
-        success_idxs = np.where(np.array(successes)[-1, :])
+
         if self.record:
+            success_idxs = np.where(np.array(successes)[-1, :])
             return np.array(self.frames)[:, success_idxs]
 
         obs.append(o.copy())

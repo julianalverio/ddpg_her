@@ -124,7 +124,7 @@ def generate_videos(evaluator, args):
     elif args.env == 'FetchPickAndPlace-v1':
         task = 'pickup'
     else:
-        assert False
+        task = 'reach'
 
     import pdb; pdb.set_trace()
     models_saved = 0
@@ -135,6 +135,7 @@ def generate_videos(evaluator, args):
         evaluator.policy.load_weights(prefix + random.choice(os.listdir(prefix)))
         videos = evaluator.generate_rollouts()
         evaluator.save_videos(videos, task)
+        models_saved += videos.shape[1]
 
 
 
