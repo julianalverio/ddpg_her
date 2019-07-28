@@ -90,7 +90,7 @@ class RolloutWorker:
             ag[...] = ag_new
 
             if self.record:
-                self.frames.append(np.array(self.venv.get_frames()))
+                self.frames.append(np.array(self.venv.get_images()))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
 
@@ -132,10 +132,11 @@ class RolloutWorker:
         prefix = '/storage/jalverio/robot_images/videos/%s/' % task
         idxs = [int(video_idx) for video_idx in os.listdir(prefix)]
         if idxs:
-            idx = str(max(idxs) + 1)
+            idx = max(idxs) + 1
         else:
-            idx = str(0)
+            idx = 0
         for video_idx in range(videos.shape[1]):
-            np.save(videos[:, video_idx], prefix + idx + video_idx)
+            shutil.rmtree(prefix + str(idx + video_idx), ignore_errors=True)
+            np.save(videos[:, video_idx], prefix + str(idx + video_idx))
 
 

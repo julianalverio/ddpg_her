@@ -149,9 +149,6 @@ def main():
 
     choose_gpu()
     args = parse_args()
-    if args.save:
-        shutil.rmtree('/storage/jalverio/ddpg_her/models', ignore_errors=True)
-        os.mkdir('/storage/jalverio/ddpg_her/models')
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     seed = set_seed(args.seed)
