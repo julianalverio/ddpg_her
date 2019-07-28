@@ -133,7 +133,7 @@ class RolloutWorker:
 
     def save_videos(self, videos, task):
         prefix = '/storage/jalverio/robot_images/videos/%s/' % task
-        idxs = [int(video_idx) for video_idx in os.listdir(prefix)]
+        idxs = [int(video_idx.replace('.npy', '')) for video_idx in os.listdir(prefix)]
         if idxs:
             idx = max(idxs) + 1
         else:
