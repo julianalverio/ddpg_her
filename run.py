@@ -133,6 +133,8 @@ def generate_videos(evaluator, args):
         # check the paths here
         evaluator.policy.load_weights(prefix + random.choice(os.listdir(prefix)))
         videos = evaluator.generate_rollouts()
+        if np.any([size == 0 for size in videos.shape]):
+            continue
         evaluator.save_videos(videos, task)
         models_saved += videos.shape[1]
 

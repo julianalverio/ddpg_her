@@ -97,7 +97,8 @@ class RolloutWorker:
         if self.record:
             import pdb; pdb.set_trace()
             success_idxs = np.where(np.array(successes)[-1, :])
-            return np.array(self.frames)[:, success_idxs]
+            success_videos = np.array(self.frames)[:, success_idxs]
+            return np.squeeze(success_videos, axis=1)
 
         obs.append(o.copy())
         achieved_goals.append(ag.copy())
