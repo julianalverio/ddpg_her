@@ -41,7 +41,7 @@ def set_seed(seed):
         if not files:
             seed = 0
         else:
-            seed = max([int(f.split('seed=')[1][0]) for f in files]) + 1
+            seed = max([int(f.split('seed=')[1]) for f in files]) + 1
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.manual_seed(seed)
@@ -151,7 +151,6 @@ def main():
     if args.save:
         shutil.rmtree('/storage/jalverio/ddpg_her/models', ignore_errors=True)
         os.mkdir('/storage/jalverio/ddpg_her/models')
-    import pdb; pdb.set_trace()
     seed = set_seed(args.seed)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False)
     seed = set_seed(args.seed)
