@@ -130,7 +130,7 @@ def generate_videos(evaluator, args):
     images_saved = 0
     while images_saved < args.record:
         prefix = '/storage/jalverio/ddpg_her/models/'
-        warmstart_path = random.choice(os.listdir(prefix))
+        warmstart_path = random.choice([path for path in os.listdir(prefix) if task in path])
         print(warmstart_path)
         evaluator.policy.load_weights(prefix + warmstart_path)
         videos = evaluator.generate_rollouts()
