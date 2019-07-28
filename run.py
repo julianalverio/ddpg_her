@@ -131,7 +131,8 @@ def generate_videos(evaluator, args):
         prefix = '/storage/jalverio/ddpg_her/models/'
         import pdb; pdb.set_trace()
         # check the paths here
-        evaluator.policy.load_weights(prefix + random.choice(os.listdir(prefix)))
+        warmstart_path = random.choice(os.listdir(prefix))
+        evaluator.policy.load_weights(prefix + warmstart_path)
         videos = evaluator.generate_rollouts()
         if np.any([size == 0 for size in videos.shape]):
             continue
