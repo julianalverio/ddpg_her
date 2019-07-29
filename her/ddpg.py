@@ -186,8 +186,10 @@ class DDPG(object):
         saved_actor = torch.load(os.path.join(model_dir, 'actor'))
         saved_critic = torch.load(os.path.join(model_dir, 'critic'))
 
+        import pdb; pdb.set_trace()
+
+
         self.main.actor.load_state_dict(saved_actor)
         self.main.critic.load_state_dict(saved_critic)
 
-        import pdb; pdb.set_trace()
         pass
