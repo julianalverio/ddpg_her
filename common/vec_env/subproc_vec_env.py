@@ -25,6 +25,9 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 break
             elif cmd == 'get_spaces_spec':
                 remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
+            elif cmd == 'set_viewers':
+                env._viewers = data
+                remote.send(True)
             else:
                 raise NotImplementedError
     except KeyboardInterrupt:
@@ -68,6 +71,11 @@ class SubprocVecEnv(VecEnv):
         for remote, action in zip(self.remotes, actions):
             remote.send(('step', action))
         self.waiting = True
+
+    def set_viewers(self, viewers):
+        for remote in self.remotes:
+            remote.send('set_viewer', viewers)
+        assert all([remote.recv() for remote in self.remotes])
 
     def step_wait(self):
         self._assert_not_closed()
