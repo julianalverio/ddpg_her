@@ -144,15 +144,16 @@ def generate_videos(evaluator, args):
 
 def main():
     import gym
-    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
-    # test_env.reset()
-    # test_env.render(mode='human')
-    # assert test_env.render(mode='rgb_array') is not None
+    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
+    test_env.reset()
+    test_env.render(mode='human')
+    assert test_env.render(mode='rgb_array') is not None
+    viewers = test_env.env._viewers
 
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
-    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type)
+    env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type, viewers=viewers)
     seed = set_seed(args.seed)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
