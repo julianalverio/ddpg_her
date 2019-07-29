@@ -120,15 +120,14 @@ class RolloutWorker:
 
         return episode_batch
 
-    def save(self, epoch):
-        if epoch < 40:
+    def save(self, epoch, score):
+        if epoch < 50:
             return
         prefix = '/storage/jalverio/ddpg_her/models/'
-        save_dir = '%s%s_%s' % (prefix, self.task, epoch)
+        save_dir = '%s%s-score=%s_%s' % (prefix, self.task, score, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)
         os.mkdir(save_dir)
-        torch.save(self.policy.main.actor.state_dict(), save_dir + '/actor')
-        torch.save(self.policy.main.critic.state_dict(), save_dir + '/critic')
+        torch.save(self.policy.main, save_dir + '/main')
 
     def save_videos(self, videos, task):
         prefix = '/storage/jalverio/robot_images/videos/%s/' % task
