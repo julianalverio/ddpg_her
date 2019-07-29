@@ -8,6 +8,7 @@ import os
 import torch
 import copy
 import torch.optim as optim
+import threading
 
 
 class DDPG(object):
@@ -182,5 +183,6 @@ class DDPG(object):
         self.critic_optimizer = optim.Adam(self.main.critic.parameters(), lr=self.Q_lr)
 
     def load_weights(self, model_dir):
-        saved_main = torch.load(os.path.join(model_dir, 'main'))
-        self.main = saved_main
+        self.main = torch.load(os.path.join(model_dir, 'main'))
+        self.main.o_stats.lock = threading.Lock()
+        self.main.g_stats.lock = threading.Lock()
