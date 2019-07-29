@@ -81,6 +81,7 @@ def get_dims(env):
     env_name = env.spec.id
     tmp_env = gym.make(env_name, reward_type='sparse')
     tmp_env.reset()
+    import pdb; pdb.set_trace()
     obs, _, _, info = tmp_env.step(env.action_space.sample())
     dims = {
         'o': obs['observation'].shape[0],
