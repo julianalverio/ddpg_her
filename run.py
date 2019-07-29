@@ -1,5 +1,5 @@
-import sys
-sys.path.insert(0, '/storage/jalverio/gym/')
+# import sys
+# sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
 from common.cmd_util import make_vec_env
 import os
@@ -144,7 +144,7 @@ def generate_videos(evaluator, args):
 
 def main():
     import gym
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
+    test_env = gym.make('FetchPickAndPlace-v1')
     test_env.reset()
     test_env.render(mode='human')
     assert test_env.render(mode='rgb_array') is not None
