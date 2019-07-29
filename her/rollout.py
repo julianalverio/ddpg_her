@@ -93,7 +93,6 @@ class RolloutWorker:
                 self.frames.append(np.array(self.venv.get_images()))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
-        print('mean success rate:', self.mean_success)
 
         if self.record:
             success_idxs = np.where(np.array(successes)[-1, :])
@@ -127,12 +126,14 @@ class RolloutWorker:
         save_dir = '%s%s-score=%s_%s' % (prefix, self.task, score, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)
         os.mkdir(save_dir)
-        import copy
         import pdb; pdb.set_trace()
-        save_policy = copy.deepcopy(self.policy.main)
-        save_policy.o_stats.lock = None
-        save_policy.g_states.lock = None
+        o_stats_lock = self.policy.main.o_stats.lock
+        g_stats_lock = self.policy.main.g_stats.lock
+        self.policy.main.o_stats.lock = None
+        self.policy.main.g_stats.lock = None
         torch.save(self.policy.main, save_dir + '/main')
+        self.policy.main.o_stats.lock = o_stats_lock
+        self.policy.main.g_stats.lock = g_stats_lock
 
     def save_videos(self, videos, task):
         prefix = '/storage/jalverio/robot_images/videos/%s/' % task
