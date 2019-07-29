@@ -74,7 +74,7 @@ class SubprocVecEnv(VecEnv):
 
     def set_viewers(self, viewers):
         for remote in self.remotes:
-            remote.send('set_viewer', viewers)
+            remote.send(('set_viewer', viewers))
         assert all([remote.recv() for remote in self.remotes])
 
     def step_wait(self):
