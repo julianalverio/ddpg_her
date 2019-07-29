@@ -49,10 +49,12 @@ def make_vec_env(env_id, env_type, num_env, seed, reward_type,
         )
 
     set_global_seeds(seed)
-    if num_env > 1:
-        return SubprocVecEnv([make_thunk(i + start_index, reward_type) for i in range(num_env)])
-    else:
-        return DummyVecEnv([make_thunk(start_index)])
+    return SubprocVecEnv([make_thunk(i + start_index, reward_type) for i in range(num_env)])
+
+    # if num_env > 1:
+    #     return SubprocVecEnv([make_thunk(i + start_index, reward_type) for i in range(num_env)])
+    # else:
+    #     return DummyVecEnv([make_thunk(start_index)])
 
 
 def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.0, gamestate=None, flatten_dict_observations=True, wrapper_kwargs=None, logger_dir=None):
