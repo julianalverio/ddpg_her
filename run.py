@@ -124,7 +124,7 @@ def generate_videos(evaluator, args):
     if args.env == 'FetchPush-v1':
         task = 'push'
     elif args.env == 'FetchPickAndPlace-v1':
-        task = 'pickup'
+        task = 'pick'
     else:
         task = 'reach'
 
