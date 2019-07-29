@@ -8,8 +8,8 @@ try:
 except ImportError:
     MPI = None
 
-# import sys
-# sys.path.insert(0, '/storage/jalverio/gym')
+import sys
+sys.path.insert(0, '/storage/jalverio/gym')
 import gym
 from gym.wrappers import FlattenDictWrapper
 import logger
