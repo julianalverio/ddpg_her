@@ -89,7 +89,6 @@ class DDPG(object):
                     random_action - actions)  # eps-greedy
         return actions
 
-
     def store_episode(self, episode_batch):
         """
         episode_batch: array of batch_size x (T or T+1) x dim_key
