@@ -120,13 +120,14 @@ class RolloutWorker:
         return episode_batch
 
     def save(self, epoch, score):
-        # if epoch < 50:
-        #     return
+        if epoch < 50:
+            return
         prefix = '/storage/jalverio/ddpg_her/models/'
         save_dir = '%s%s-score=%s_%s' % (prefix, self.task, score, epoch)
         shutil.rmtree(save_dir, ignore_errors=True)
         os.mkdir(save_dir)
-        import pdb; pdb.set_trace()
+
+        # you can't pickle lock objects :-(
         o_stats_lock = self.policy.main.o_stats.lock
         g_stats_lock = self.policy.main.g_stats.lock
         self.policy.main.o_stats.lock = None
