@@ -93,6 +93,7 @@ class RolloutWorker:
                 self.frames.append(np.array(self.venv.get_images()))
 
         self.mean_success = np.mean(np.array(successes)[-1, :])  # success is only on the last timestep
+        print('mean success rate:', self.mean_success)
 
         if self.record:
             success_idxs = np.where(np.array(successes)[-1, :])
