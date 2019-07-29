@@ -146,9 +146,8 @@ def main():
     import gym
     test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
     test_env.reset()
-    assert test_env.render(mode='rgb_array') is not None
-    test_env.render()
-    test_env.step([0, 0, 0, 0])
+    test_env.render(mode='human')
+    assert test_env.render(mode='rgb_array')
     import pdb; pdb.set_trace()
 
     choose_gpu()
