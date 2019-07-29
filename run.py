@@ -145,7 +145,7 @@ def generate_videos(evaluator, args):
 
 def main():
     import gym
-    test_env = gym.make('FetchPickAndPlace-v1')
+    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
     test_env.reset()
     test_env.render(mode='human')
     assert test_env.render(mode='rgb_array') is not None
