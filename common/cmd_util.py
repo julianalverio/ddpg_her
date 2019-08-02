@@ -17,7 +17,6 @@ from bench import Monitor
 from common import set_global_seeds
 from common.atari_wrappers import make_atari, wrap_deepmind
 from common.vec_env.subproc_vec_env import SubprocVecEnv
-from common.vec_env.dummy_vec_env import DummyVecEnv
 from common import retro_wrappers
 
 def make_vec_env(env_id, env_type, num_env, seed, reward_type,
@@ -66,6 +65,7 @@ def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, re
         gamestate = gamestate or retro.State.DEFAULT
         env = retro_wrappers.make_retro(game=env_id, max_episode_steps=10000, use_restricted_actions=retro.Actions.DISCRETE, state=gamestate)
     else:
+        import pdb; pdb.set_trace()
         env = gym.make(env_id, reward_type)
 
     if flatten_dict_observations and isinstance(env.observation_space, gym.spaces.Dict):
