@@ -74,10 +74,10 @@ def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, re
     env.seed(seed + subrank if seed is not None else None)
 
     # remove this!
-    print('rendering now')
-    env.render(mode='human')
-    env.render(mode='rgb_array')
-    print('done rendering')
+    # print('rendering now')
+    # env.render(mode='human')
+    # env.render(mode='rgb_array')
+    # print('done rendering')
 
 
     env = Monitor(env,
