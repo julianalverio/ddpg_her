@@ -143,13 +143,6 @@ def generate_videos(evaluator, args):
 
 
 def main():
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
-    test_env.reset()
-    print('rendering now...')
-    test_env.render(mode='human')
-    test_env.step([0, 0, 0, 0])
-    assert test_env.render(mode='rgb_array') is not None
-
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
