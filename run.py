@@ -150,7 +150,7 @@ def main():
     seed = set_seed(args.seed)
     get_dims(env)
     PARAMS['sample_her_transitions'] = make_sample_her_transitions(PARAMS['distance_threshold'])
-    PARAMS['log_dir'] = 'runs/env=%s_seed=%s' % (args.env, seed)
+    PARAMS['log_dir'] = 'runs/env=%s-reward=%s_seed=%s' % (args.env, args.reward_type, seed)
     shutil.rmtree(PARAMS['log_dir'], ignore_errors=True)
     PARAMS['save'] = args.save
     PARAMS['env'] = args.env
