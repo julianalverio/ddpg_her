@@ -1,7 +1,6 @@
 import sys
 sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
-print(gym.__file__)
 from common.cmd_util import make_vec_env
 import os
 import argparse

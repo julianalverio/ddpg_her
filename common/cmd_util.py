@@ -11,9 +11,7 @@ except ImportError:
 import sys
 sys.path.insert(0, '/storage/jalverio/gym')
 import gym
-print(gym.__file__)
 from gym.wrappers import FlattenDictWrapper
-import pdb; pdb.set_trace()
 import logger
 from bench import Monitor
 from common import set_global_seeds
