@@ -143,23 +143,23 @@ def generate_videos(evaluator, args):
 
 
 def main():
-    # test
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
-    test_env.reset()
-    test_env.step([0, 0, 0, 0])
-    test_env.render(mode='human')
-    assert test_env.render(mode='rgb_array') is not None
-    import pdb; pdb.set_trace()
-
-
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
-    test_env.reset()
-    for _ in range(7):
-        test_env.step([0, 0, 0, 0])
-    for _ in range(5):
-        test_env.step([0, 0, 0, 0])
-    print('DONE.')
-    import sys; sys.exit()
+    # # test
+    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
+    # test_env.reset()
+    # test_env.step([0, 0, 0, 0])
+    # test_env.render(mode='human')
+    # assert test_env.render(mode='rgb_array') is not None
+    # import pdb; pdb.set_trace()
+    #
+    #
+    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
+    # test_env.reset()
+    # for _ in range(7):
+    #     test_env.step([0, 0, 0, 0])
+    # for _ in range(5):
+    #     test_env.step([0, 0, 0, 0])
+    # print('DONE.')
+    # import sys; sys.exit()
 
     choose_gpu()
     args = parse_args()
