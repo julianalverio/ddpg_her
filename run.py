@@ -147,8 +147,8 @@ def main():
     test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
     test_env.reset()
     test_env.step([0, 0, 0, 0])
-    import pdb; pdb.set_trace()
     test_env.render(mode='human')
+    import pdb; pdb.set_trace()
     # assert test_env.render(mode='rgb_array') is not None
 
     test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
