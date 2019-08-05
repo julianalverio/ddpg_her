@@ -20,11 +20,11 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         print("in post method")
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
-        print('data string: ', self.data_string)
+        print('data string: ', self.data_string.shape)
 
         self.send_response(200, message='hello')
-        # self.end_headers()
-        #
+        self.end_headers()
+
         # data = simplejson.loads(self.data_string)
         # # with open("test123456.json", "w") as outfile:
         # #     simplejson.dump(data, outfile)
@@ -34,7 +34,7 @@ class S(BaseHTTPRequestHandler):
         # return
 
 
-def run(server_class=HTTPServer, handler_class=S, port=80):
+def run(server_class=HTTPServer, handler_class=S, port=500):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print('Starting httpd...')
