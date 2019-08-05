@@ -11,14 +11,10 @@ def worker(remote, parent_remote, env_fn_wrapper):
         while True:
             cmd, data = remote.recv()
             if cmd == 'step':
-                print('in step now')
                 ob, reward, done, info = env.step(data)
-                print('in here 1')
                 if done:
                     ob = env.reset()
-                print('in here 2')
                 remote.send((ob, reward, done, info))
-                print('in here 3')
             elif cmd == 'reset':
                 ob = env.reset()
                 remote.send(ob)
