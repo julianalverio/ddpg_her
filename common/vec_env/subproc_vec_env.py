@@ -24,6 +24,10 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 remote.close()
                 break
             elif cmd == 'get_spaces_spec':
+                # print('in get spaces spec')
+                # print('trying observation space', env.env.observation_space)
+                # print('trying action space', env.env.action_space)
+                # print('trying spec', env.env.spec)
                 remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
             else:
                 raise NotImplementedError
