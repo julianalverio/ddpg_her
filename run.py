@@ -148,11 +148,11 @@ def main():
     test_env.reset()
     test_env.step([0, 0, 0, 0])
     test_env.render(mode='human')
+    assert test_env.render(mode='rgb_array') is not None
+
     for _ in range(10):
         test_env.step([0,0,0,0])
     import pdb; pdb.set_trace()
-
-    assert test_env.render(mode='rgb_array') is not None
 
     choose_gpu()
     args = parse_args()
