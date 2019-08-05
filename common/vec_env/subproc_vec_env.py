@@ -11,10 +11,14 @@ def worker(remote, parent_remote, env_fn_wrapper):
         while True:
             cmd, data = remote.recv()
             if cmd == 'step':
+                print('in step now')
                 ob, reward, done, info = env.step(data)
+                print('in here 1')
                 if done:
                     ob = env.reset()
+                print('in here 2')
                 remote.send((ob, reward, done, info))
+                print('in here 3')
             elif cmd == 'reset':
                 ob = env.reset()
                 remote.send(ob)
@@ -23,19 +27,7 @@ def worker(remote, parent_remote, env_fn_wrapper):
             elif cmd == 'close':
                 remote.close()
                 break
-            elif cmd=='test':
-                print('TESTING')
-                print(type(env))
-                print(type(env.env))
-                print(env.env.action_space)
-                print(env.env.observation_space)
-                print(env.env.spec)
-                remote.send(env.env)
             elif cmd == 'get_spaces_spec':
-                # print('in get spaces spec')
-                # print('trying observation space', env.env.observation_space)
-                # print('trying action space', env.env.action_space)
-                # print('trying spec', env.env.spec)
                 remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
             else:
                 raise NotImplementedError
@@ -69,20 +61,11 @@ class SubprocVecEnv(VecEnv):
                 p.start()
         for remote in self.work_remotes:
             remote.close()
-        print('I MADE IT HERE')
         env = env_fns[0]()
-        print('showing env')
         env = env.env.env
-        print(type(env))
-        print('getting obs')
         observation_space = env.observation_space
-        print(observation_space)
-        print('getting action')
         action_space = env.action_space
-        print(action_space)
-        print('getting spec')
         self.spec = env.spec
-        print(self.spec)
         # self.remotes[0].send(('get_spaces_spec', None))
         # observation_space, action_space, self.spec = self.remotes[0].recv()
         self.viewer = None
