@@ -70,10 +70,18 @@ class SubprocVecEnv(VecEnv):
         for remote in self.work_remotes:
             remote.close()
         env = env_fns[0]()
+        print('showing env')
         env = env.env.env
+        print(type(env))
+        print('getting obs')
         observation_space = env.observation_space
+        print(observation_space)
+        print('getting action')
         action_space = env.action_space
+        print(action_space)
+        print('getting spec')
         self.spec = env.spec
+        print(self.spec)
         # self.remotes[0].send(('get_spaces_spec', None))
         # observation_space, action_space, self.spec = self.remotes[0].recv()
         self.viewer = None
