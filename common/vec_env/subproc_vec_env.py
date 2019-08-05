@@ -16,17 +16,20 @@ def worker(remote, parent_remote, env_fn_wrapper):
                     ob = env.reset()
                 remote.send((ob, reward, done, info))
             elif cmd == 'reset':
-                print('I AM HERE1')
                 ob = env.reset()
-                print('I AM HERE2')
                 remote.send(ob)
-                print('I AM HERE3')
             elif cmd == 'render':
                 remote.send(env.render(mode='rgb_array'))
             elif cmd == 'close':
                 remote.close()
                 break
             elif cmd == 'get_spaces_spec':
+                print('I am in get_spaces_spec')
+                print('env type:', type(env))
+                print('env.env type', type(env.env))
+                print('trying observation space', env.env.observation_space)
+                print('trying action space', env.env.action_space)
+                print('trying spec', env.env.spec)
                 remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
             else:
                 raise NotImplementedError
@@ -60,7 +63,6 @@ class SubprocVecEnv(VecEnv):
                 p.start()
         for remote in self.work_remotes:
             remote.close()
-
         self.remotes[0].send(('get_spaces_spec', None))
         observation_space, action_space, self.spec = self.remotes[0].recv()
         self.viewer = None
