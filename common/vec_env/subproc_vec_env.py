@@ -30,6 +30,7 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 print(env.env.action_space)
                 print(env.env.observation_space)
                 print(env.env.spec)
+                remote.send(env)
             elif cmd == 'get_spaces_spec':
                 # print('in get spaces spec')
                 # print('trying observation space', env.env.observation_space)
