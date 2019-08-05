@@ -30,7 +30,7 @@ def worker(remote, parent_remote, env_fn_wrapper):
                 print(env.env.action_space)
                 print(env.env.observation_space)
                 print(env.env.spec)
-                remote.send(env)
+                remote.send(env.env)
             elif cmd == 'get_spaces_spec':
                 # print('in get spaces spec')
                 # print('trying observation space', env.env.observation_space)
@@ -71,7 +71,8 @@ class SubprocVecEnv(VecEnv):
             remote.close()
         # self.remotes[0].send(('test', None))
         self.remotes[0].send(('get_spaces_spec', None))
-        env = self.remotes[0].recv()
+        env = self.remotes[0].recv()[0]
+        print(env)
         observation_space = env.observation_space
         action_space = env.action_space
         self.spec = env.spec
