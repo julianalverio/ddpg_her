@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import SocketServer
+import socketserver
 import simplejson
 import random
 
