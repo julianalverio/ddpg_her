@@ -20,7 +20,7 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
-        print "in post method"
+        print("in post method")
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
 
         self.send_response(200)
@@ -29,7 +29,7 @@ class S(BaseHTTPRequestHandler):
         data = simplejson.loads(self.data_string)
         # with open("test123456.json", "w") as outfile:
         #     simplejson.dump(data, outfile)
-        print "{}".format(data)
+        print("{}".format(data))
         # f = open("for_presen.py")
         self.wfile.write('this is my response')
         return
@@ -38,7 +38,7 @@ class S(BaseHTTPRequestHandler):
 def run(server_class=HTTPServer, handler_class=S, port=80):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'Starting httpd...'
+    print('Starting httpd...')
     httpd.serve_forever()
 
 if __name__ == "__main__":
