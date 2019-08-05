@@ -70,7 +70,9 @@ class RolloutWorker:
 
             # compute new states and observations
             actions = actions.cpu().detach().numpy()
+            print('taking a step')
             obs_dict_new, _, done, info = self.venv.step(actions)
+            print('I took a step')
             o_new = obs_dict_new['observation']
             ag_new = obs_dict_new['achieved_goal']
             success = np.array([i['is_success'] for i in info])
