@@ -69,8 +69,9 @@ class SubprocVecEnv(VecEnv):
                 p.start()
         for remote in self.work_remotes:
             remote.close()
-        # self.remotes[0].send(('test', None))
-        self.remotes[0].send(('get_spaces_spec', None))
+        env = env_fns[0]()
+        print(env)
+        # self.remotes[0].send(('get_spaces_spec', None))
         env = self.remotes[0].recv()[0]
         print(env)
         observation_space = env.observation_space
