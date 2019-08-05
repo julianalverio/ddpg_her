@@ -69,6 +69,7 @@ class SubprocVecEnv(VecEnv):
                 p.start()
         for remote in self.work_remotes:
             remote.close()
+        print('I MADE IT HERE')
         env = env_fns[0]()
         print('showing env')
         env = env.env.env
