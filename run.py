@@ -116,7 +116,7 @@ def train(policy, rollout_worker, evaluator, writer):
 
 def main():
     # test
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='sparse')
+    test_env = gym.make('FetchPickAndPlace-v1')
     test_env.reset()
     test_env.step([0, 0, 0, 0])
     test_env.render(mode='human')
@@ -124,7 +124,7 @@ def main():
     import pdb;
     pdb.set_trace()
 
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
+    test_env = gym.make('FetchPickAndPlace-v1')
     test_env.reset()
     for _ in range(7):
         test_env.step([0, 0, 0, 0])
