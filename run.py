@@ -154,7 +154,7 @@ def main():
     test_env.reset()
     for _ in range(10):
         test_env.step([0, 0, 0, 0])
-    print('done.')
+    print('DONE.')
     import sys; sys.exit()
 
     choose_gpu()
