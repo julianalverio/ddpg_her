@@ -16,8 +16,11 @@ def worker(remote, parent_remote, env_fn_wrapper):
                     ob = env.reset()
                 remote.send((ob, reward, done, info))
             elif cmd == 'reset':
+                print('I AM HERE1')
                 ob = env.reset()
+                print('I AM HERE2')
                 remote.send(ob)
+                print('I AM HERE3')
             elif cmd == 'render':
                 remote.send(env.render(mode='rgb_array'))
             elif cmd == 'close':
