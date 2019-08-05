@@ -144,7 +144,7 @@ def generate_videos(evaluator, args):
 
 def main():
     # test
-    test_env = gym.make('FetchPush-v1', reward_type='visual')
+    test_env = gym.make('FetchPush-v1', reward_type='sparse')
     test_env.reset()
     test_env.step([0, 0, 0, 0])
     test_env.render(mode='human')
@@ -152,7 +152,7 @@ def main():
 
     # for _ in range(10):
     #     test_env.step([0,0,0,0])
-    # import pdb; pdb.set_trace()
+    import pdb; pdb.set_trace()
 
     choose_gpu()
     args = parse_args()
