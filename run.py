@@ -147,6 +147,7 @@ def main():
     test_env = gym.make('FetchPush-v1', reward_type='sparse')
     test_env.reset()
     test_env.step([0, 0, 0, 0])
+    import pdb; pdb.set_trace()
     test_env.render(mode='human')
     # assert test_env.render(mode='rgb_array') is not None
 
@@ -154,6 +155,7 @@ def main():
     test_env.reset()
     print('I AM NOW GOING TO STEP')
     for _ in range(10):
+
         test_env.step([0, 0, 0, 0])
     print('DONE.')
     import sys; sys.exit()
