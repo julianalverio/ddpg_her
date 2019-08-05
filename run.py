@@ -152,7 +152,7 @@ def main():
 
     # for _ in range(10):
     #     test_env.step([0,0,0,0])
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     choose_gpu()
     args = parse_args()
