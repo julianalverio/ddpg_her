@@ -72,7 +72,7 @@ class SubprocVecEnv(VecEnv):
         # self.remotes[0].send(('test', None))
         self.remotes[0].send(('get_spaces_spec', None))
         something = self.remotes[0].recv()
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         # observation_space, action_space, self.spec = self.remotes[0].recv()
         self.viewer = None
         VecEnv.__init__(self, len(env_fns), observation_space, action_space)
