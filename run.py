@@ -147,7 +147,7 @@ def main():
     test_env = gym.make('FetchPush-v1', reward_type='sparse')
     test_env.reset()
     test_env.step([0, 0, 0, 0])
-    # test_env.render(mode='human')
+    test_env.render(mode='human')
     assert test_env.render(mode='rgb_array') is not None
 
     import pdb; pdb.set_trace()
