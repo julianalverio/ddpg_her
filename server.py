@@ -1,4 +1,4 @@
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server.HTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
 import simplejson
 import random
