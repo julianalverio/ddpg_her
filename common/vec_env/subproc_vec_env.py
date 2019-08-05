@@ -23,12 +23,19 @@ def worker(remote, parent_remote, env_fn_wrapper):
             elif cmd == 'close':
                 remote.close()
                 break
+            elif cmd=='test':
+                print('TESTING')
+                print(type(env))
+                print(type(env.env))
+                print(env.env.action_space)
+                print(env.env.observation_space)
+                print(env.env.spec)
             elif cmd == 'get_spaces_spec':
                 # print('in get spaces spec')
                 # print('trying observation space', env.env.observation_space)
                 # print('trying action space', env.env.action_space)
                 # print('trying spec', env.env.spec)
-                remote.send((env.env.observation_space, env.env.action_space))
+                remote.send((env.env.observation_space, env.env.action_space, env.env.spec))
             else:
                 raise NotImplementedError
     except KeyboardInterrupt:
@@ -61,9 +68,9 @@ class SubprocVecEnv(VecEnv):
                 p.start()
         for remote in self.work_remotes:
             remote.close()
+        self.remotes[0].send(('test', None))
         self.remotes[0].send(('get_spaces_spec', None))
-        # observation_space, action_space, self.spec = self.remotes[0].recv()
-        observation_space, action_space = self.remotes[0].recv()
+        observation_space, action_space, self.spec = self.remotes[0].recv()
         self.viewer = None
         VecEnv.__init__(self, len(env_fns), observation_space, action_space)
 
