@@ -1,7 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import socketserver
 import simplejson
-import random
 
 
 class S(BaseHTTPRequestHandler):
@@ -22,17 +20,18 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         print("in post method")
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
+        print('data string: ', self.data_string)
 
-        self.send_response(200)
-        self.end_headers()
-
-        data = simplejson.loads(self.data_string)
-        # with open("test123456.json", "w") as outfile:
-        #     simplejson.dump(data, outfile)
-        print("{}".format(data))
-        # f = open("for_presen.py")
-        self.wfile.write('this is my response')
-        return
+        self.send_response(200, message='hello')
+        # self.end_headers()
+        #
+        # data = simplejson.loads(self.data_string)
+        # # with open("test123456.json", "w") as outfile:
+        # #     simplejson.dump(data, outfile)
+        # print("{}".format(data))
+        # # f = open("for_presen.py")
+        # self.wfile.write('this is my response')
+        # return
 
 
 def run(server_class=HTTPServer, handler_class=S, port=80):
