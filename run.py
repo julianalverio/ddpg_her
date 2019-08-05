@@ -152,6 +152,7 @@ def main():
 
     test_env = gym.make('FetchPush-v1', reward_type='visual')
     test_env.reset()
+    print('I AM NOW GOING TO STEP')
     for _ in range(10):
         test_env.step([0, 0, 0, 0])
     print('DONE.')
