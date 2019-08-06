@@ -25,7 +25,7 @@ class S(BaseHTTPRequestHandler):
     def do_POST(self):
         self._set_headers()
         self.end_headers()
-        self.send_response(200, message='-1')
+        # self.send_response(200, message='-1')
         self.wfile.write('this is my response'.encode('utf-8'))
         return
 
