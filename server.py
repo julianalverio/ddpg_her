@@ -21,6 +21,7 @@ class S(BaseHTTPRequestHandler):
         print("Message received")
         data = self.rfile.read(int(self.headers['Content-Length']))
         print(data)
+        print(type(data))
 
         # self.send_response(200, message='hello')
         # self.end_headers()
