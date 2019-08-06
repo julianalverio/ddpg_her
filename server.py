@@ -24,27 +24,22 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
-        # self.end_headers()
-        self.wfile.write('this is my response'.encode('utf-8'))
-        return
-
-        self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
         try:
             result = model.viterbi_given_frames('The robot picked up the cube', frames)
         except:
-            self.send_response(200, message='-1')
+            self.wfile.write('-1'.encode('utf-8'))
             return
 
         threshold = -10000
         if np.any(result.results[-1].final_state_likelihoods < threshold):
-            self.send_response(200, message='0')
+            self.wfile.write('0'.encode('utf-8'))
         else:
             state = np.argmax(result.results[-1].final_state_likelihoods)
             num_states = result.results[-1].num_states
             reward = state / (num_states - 1)
-            self.send_response(200, message=reward)
+            self.wfile.write(str(reward).encode('utf-8'))
 
 
 
