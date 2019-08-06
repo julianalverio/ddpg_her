@@ -25,8 +25,8 @@ class S(BaseHTTPRequestHandler):
     def do_POST(self):
         self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
-        print(json.loads(data))
-        data = np.array(eval(data.decode("utf-8"))['images'])
+        data = np.array(json.loads(data)['images'])
+        print(data.shape)
 
 
         # self.send_response(200, message='hello')
