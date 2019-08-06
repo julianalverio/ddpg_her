@@ -23,28 +23,31 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
-        self._set_headers()
-        data = self.rfile.read(int(self.headers['Content-Length']))
-        frames = np.array(json.loads(data)['images'])
         try:
-            print('running viterbi...')
-            result = model.viterbi_given_frames('The robot picked up the cube', frames)
-        except:
-            print('got an error')
-            self.wfile.write('-1'.encode('utf-8'))
-            print('I SENT A -1')
-            return
+            self._set_headers()
+            data = self.rfile.read(int(self.headers['Content-Length']))
+            frames = np.array(json.loads(data)['images'])
+            try:
+                print('running viterbi...')
+                result = model.viterbi_given_frames('The robot picked up the cube', frames)
+            except:
+                print('got an error')
+                self.wfile.write('-1'.encode('utf-8'))
+                print('I SENT A -1')
+                return
 
-        threshold = -10000
-        if np.any(result.results[-1].final_state_likelihoods < threshold):
-            self.wfile.write('0'.encode('utf-8'))
-            print('I SENT A ZERO')
-        else:
-            state = np.argmax(result.results[-1].final_state_likelihoods)
-            num_states = result.results[-1].num_states
-            reward = state / (num_states - 1)
-            print('I GOT A REWARD OF ', reward)
-            self.wfile.write(str(reward).encode('utf-8'))
+            threshold = -10000
+            if np.any(result.results[-1].final_state_likelihoods < threshold):
+                self.wfile.write('0'.encode('utf-8'))
+                print('I SENT A ZERO')
+            else:
+                state = np.argmax(result.results[-1].final_state_likelihoods)
+                num_states = result.results[-1].num_states
+                reward = state / (num_states - 1)
+                print('I GOT A REWARD OF ', reward)
+                self.wfile.write(str(reward).encode('utf-8'))
+        except:
+            import pdb; pdb.set_trace()
 
 
 def run(server_class=HTTPServer, handler_class=S, port=500):
