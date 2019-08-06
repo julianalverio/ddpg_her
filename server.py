@@ -1,9 +1,16 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import simplejson
 import numpy as np
+import sys
+sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
+from st import load_model
+import json
 
 
 class S(BaseHTTPRequestHandler):
+    def __init__(self):
+        self.model = load_model(robot=True)
+        super().__init__()
+
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
@@ -19,13 +26,10 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
-        print("Message received")
         data = self.rfile.read(int(self.headers['Content-Length']))
-        data = eval(data.decode("utf-8"))
-        to_convert = data['arr']
-        print(np.array(to_convert))
+        data = np.array(eval(data.decode("utf-8")['images']))
+        print(json.loads(data))
 
-        # print('i want to convert:', to_convert)
 
         # self.send_response(200, message='hello')
         # self.end_headers()
