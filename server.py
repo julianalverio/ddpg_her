@@ -30,15 +30,18 @@ class S(BaseHTTPRequestHandler):
             result = model.viterbi_given_frames('The robot picked up the cube', frames)
         except:
             self.wfile.write('-1'.encode('utf-8'))
+            print('I SENT A -1')
             return
 
         threshold = -10000
         if np.any(result.results[-1].final_state_likelihoods < threshold):
             self.wfile.write('0'.encode('utf-8'))
+            print('I SENT A ZERO')
         else:
             state = np.argmax(result.results[-1].final_state_likelihoods)
             num_states = result.results[-1].num_states
             reward = state / (num_states - 1)
+            print('I GOT A REWARD OF ', reward)
             self.wfile.write(str(reward).encode('utf-8'))
 
 
