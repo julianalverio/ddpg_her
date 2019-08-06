@@ -26,7 +26,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         self.end_headers()
         self.send_response(200, message='-1')
-        self.wfile.write(json.dumps('this is my response'))
+        self.wfile.write('this is my response'.encode('utf-8'))
         return
 
         self._set_headers()
