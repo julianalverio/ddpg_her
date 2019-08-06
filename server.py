@@ -27,8 +27,10 @@ class S(BaseHTTPRequestHandler):
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
         try:
+            print('running viterbi...')
             result = model.viterbi_given_frames('The robot picked up the cube', frames)
         except:
+            print('got an error')
             self.wfile.write('-1'.encode('utf-8'))
             print('I SENT A -1')
             return
