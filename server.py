@@ -25,21 +25,23 @@ class S(BaseHTTPRequestHandler):
     def do_POST(self):
         self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
-        data = np.array(json.loads(data)['images'])
-        output = model.viterbi_given_frames(data)
-        import pdb; pdb.set_trace()
+        frames = np.array(json.loads(data)['images'])
+        try:
+            result = model.viterbi_given_frames('The robot picked up the cube', frames)
+        except:
+            self.send_response(200, message='-1')
+            return
 
-
-        # self.send_response(200, message='hello')
+        threshold = -10000
+        if np.any(result.results[-1].final_state_likelihoods < threshold):
+            self.send_response(200, message='0')
+        else:
+            state = np.argmax(result.results[-1].final_state_likelihoods)
+            num_states = result.results[-1].num_states
+            reward = state / (num_states - 1)
+            self.send_response(200, message=reward)
         # self.end_headers()
-
-        # data = simplejson.loads(self.data_string)
-        # # with open("test123456.json", "w") as outfile:
-        # #     simplejson.dump(data, outfile)
-        # print("{}".format(data))
-        # # f = open("for_presen.py")
         # self.wfile.write('this is my response')
-        # return
 
 
 def run(server_class=HTTPServer, handler_class=S, port=500):
