@@ -42,7 +42,6 @@ class S(BaseHTTPRequestHandler):
             self.wfile.write(str(reward).encode('utf-8'))
 
 
-
 def run(server_class=HTTPServer, handler_class=S, port=500):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
