@@ -23,10 +23,10 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
+        self._set_headers()
         self.send_response(200, message='-1')
         return
 
-        self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
         try:
