@@ -19,8 +19,8 @@ class S(BaseHTTPRequestHandler):
     def do_POST(self):
         self._set_headers()
         print("Message received")
-        # data = self.rfile.read(int(self.headers['Content-Length']))
-        # print(data)
+        data = self.rfile.read(int(self.headers['Content-Length']))
+        print(data)
 
         # self.send_response(200, message='hello')
         # self.end_headers()
