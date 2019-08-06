@@ -22,7 +22,8 @@ class S(BaseHTTPRequestHandler):
         print("Message received")
         data = self.rfile.read(int(self.headers['Content-Length']))
         data = data.decode("utf-8")
-        np.array(data['arr']).shape
+        to_convert = np.array(data['arr'])
+        print('i want to convert:', to_convert)
 
         # self.send_response(200, message='hello')
         # self.end_headers()
