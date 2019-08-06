@@ -24,9 +24,12 @@ class S(BaseHTTPRequestHandler):
 
     def do_POST(self):
         self._set_headers()
+        self.end_headers()
         self.send_response(200, message='-1')
+        self.wfile.write('this is my response')
         return
 
+        self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
         try:
@@ -43,8 +46,7 @@ class S(BaseHTTPRequestHandler):
             num_states = result.results[-1].num_states
             reward = state / (num_states - 1)
             self.send_response(200, message=reward)
-        # self.end_headers()
-        # self.wfile.write('this is my response')
+
 
 
 def run(server_class=HTTPServer, handler_class=S, port=500):
