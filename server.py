@@ -5,12 +5,10 @@ sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
 from st import load_model
 import json
 
+model = load_model(robot=True)
+
 
 class S(BaseHTTPRequestHandler):
-    def __init__(self):
-        self.model = load_model(robot=True)
-        super().__init__()
-
     def _set_headers(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
