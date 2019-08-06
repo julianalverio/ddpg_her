@@ -21,7 +21,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         print("Message received")
         data = self.rfile.read(int(self.headers['Content-Length']))
-        data = data.decode("utf-8")
+        data = eval(data.decode("utf-8"))
         print(type(data))
         keys = data.keys()
         print(keys)
