@@ -26,7 +26,8 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
         data = np.array(json.loads(data)['images'])
-        print(data.shape)
+        output = model.viterbi_given_frames(data)
+        import pdb; pdb.set_trace()
 
 
         # self.send_response(200, message='hello')
