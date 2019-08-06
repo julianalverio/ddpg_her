@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import simplejson
+import numpy as np
 
 
 class S(BaseHTTPRequestHandler):
@@ -20,9 +21,8 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         print("Message received")
         data = self.rfile.read(int(self.headers['Content-Length']))
-        print(data)
-        print(type(data))
-        print(data.decode("utf-8"))
+        data = data.decode("utf-8")
+        np.array(data['arr']).shape
 
         # self.send_response(200, message='hello')
         # self.end_headers()
