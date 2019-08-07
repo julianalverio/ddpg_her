@@ -5,7 +5,10 @@ sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
 from st import load_model
 import json
 
+detector_path = '/storage/jalverio/sentence-tracker/robot/detector'
+robot_path = '/storage/jalverio/sentence-tracker/models/2019-08-01-19-05-robot.pkl'
 model = load_model(robot=True)
+
 
 
 class S(BaseHTTPRequestHandler):
@@ -30,10 +33,10 @@ class S(BaseHTTPRequestHandler):
             try:
                 print('running viterbi...')
                 result = model.viterbi_given_frames('The robot picked up the cube', frames)
-            except:
-                print('got an error')
+            except Exception as e:
+                print('got an error. showing.')
+                print(e)
                 self.wfile.write('-1'.encode('utf-8'))
-                print('I SENT A -1')
                 return
 
             threshold = -10000

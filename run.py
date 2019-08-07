@@ -161,6 +161,7 @@ def main():
     # print('DONE.')
     # import sys; sys.exit()
 
+    import pdb; pdb.set_trace()
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
