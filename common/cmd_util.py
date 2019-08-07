@@ -15,9 +15,7 @@ from gym.wrappers import FlattenDictWrapper
 import logger
 from bench import Monitor
 from common import set_global_seeds
-from common.atari_wrappers import make_atari, wrap_deepmind
 from common.vec_env.subproc_vec_env import SubprocVecEnv
-from common import retro_wrappers
 
 def make_vec_env(env_id, env_type, num_env, seed, reward_type,
                  wrapper_kwargs=None,
