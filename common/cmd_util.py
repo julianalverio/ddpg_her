@@ -58,7 +58,7 @@ def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, re
     env = gym.make(env_id, reward_type)
     env.seed(seed + subrank)
     # import pdb; pdb.set_trace()
-    env = Monitor(env,
+    cenv = Monitor(env,
                   logger_dir and os.path.join(logger_dir, str(mpi_rank) + '.' + str(subrank)),
                   allow_early_resets=True)
     return env
