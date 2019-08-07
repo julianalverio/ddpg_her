@@ -5,7 +5,7 @@ sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
 from st import load_model
 from generate_tracks import IncompleteTrackException
 import json
-import pydarknet; pydarknet.set_cuda_device(3)
+# import pydarknet; pydarknet.set_cuda_device(3)
 
 detector_path = '/storage/jalverio/sentence-tracker/robot/detector'
 robot_path = '/storage/jalverio/sentence-tracker/models/2019-08-01-19-05-robot.pkl'
