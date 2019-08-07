@@ -37,6 +37,7 @@ class S(BaseHTTPRequestHandler):
         print(frames[0].shape)
         try:
             print('running viterbi...')
+            import pdb; pdb.set_trace()
             result = model.viterbi_given_frames(detector_path, 'The robot picked up the cube', frames)
         except IncompleteTrackException:
             print('incomplete track exception')
