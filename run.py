@@ -144,8 +144,7 @@ def generate_videos(evaluator, args):
 
 def main():
     # # test
-    import pdb; pdb.set_trace()
-    test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
+    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
     # test_env.reset()
     # test_env.step([0, 0, 0, 0])
     # test_env.render(mode='human')
@@ -162,10 +161,10 @@ def main():
     # print('DONE.')
     # import sys; sys.exit()
 
-    import pdb; pdb.set_trace()
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
+    import pdb; pdb.set_trace()
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type)
     seed = set_seed(args.seed)
     get_dims(env)
