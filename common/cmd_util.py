@@ -67,7 +67,9 @@ def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, re
     else:
         env = gym.make(env_id, reward_type)
 
+    import pdb; pdb.set_trace()
     if flatten_dict_observations and isinstance(env.observation_space, gym.spaces.Dict):
+        print('I AM HERE')
         keys = env.observation_space.spaces.keys()
         env = gym.wrappers.FlattenDictWrapper(env, dict_keys=list(keys))
 
