@@ -93,6 +93,7 @@ def get_dims(env):
     distance_threshold = tmp_env.env.distance_threshold
     PARAMS['distance_threshold'] = distance_threshold
     PARAMS['dims'] = dims
+    import pdb; pdb.set_trace()
 
 
 def train(policy, rollout_worker, evaluator, writer):
