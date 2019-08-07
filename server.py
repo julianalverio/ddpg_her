@@ -32,7 +32,7 @@ class S(BaseHTTPRequestHandler):
         frames = np.array(json.loads(data)['images'])
         try:
             print('running viterbi...')
-            result = model.viterbi_given_frames('The robot picked up the cube', frames)
+            result = model.viterbi_given_frames(detector_path, 'The robot picked up the cube', frames)
         except IncompleteTrackException:
             print('incomplete track exception')
             self.wfile.write('-1'.encode('utf-8'))
