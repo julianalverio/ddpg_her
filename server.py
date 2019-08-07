@@ -30,7 +30,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
-        frames = [frames[idx] for idx in range(frames.shape[0])]
+        frames = [frames[idx].astype(np.uint8) for idx in range(frames.shape[0])]
         print('showing frames info')
         print(type(frames))
         print(len(frames))
