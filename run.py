@@ -142,6 +142,13 @@ def generate_videos(evaluator, args):
         images_saved += videos.shape[1]
         print('total images saved: %s' % images_saved)
 
+def start_servers(num_envs):
+    print('starting up %s servers' % num_envs)
+    for worker_idx in range(num_envs):
+        os.system('python /storage/jalverio/ddpg_her/server.py %s' % (5000 + worker_idx))
+
+
+
 
 def main():
     # # test
@@ -165,6 +172,7 @@ def main():
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
+    start_servers(args.num_envs)
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type)
     seed = set_seed(args.seed)
     get_dims(env)

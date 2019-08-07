@@ -11,7 +11,6 @@ robot_path = '/storage/jalverio/sentence-tracker/models/2019-08-01-19-05-robot.p
 model = load_model(robot=True)
 
 
-
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
@@ -34,19 +33,17 @@ class S(BaseHTTPRequestHandler):
         try:
             result = model.viterbi_given_frames(detector_path, 'The robot picked up the cube', frames)
         except IncompleteTrackException:
-            print('incomplete track exception')
+            print('INCOMPLETE TRACK EXCEPTION')
             self.wfile.write('-1'.encode('utf-8'))
             return
 
         threshold = -10000
         if np.any(result.results[-1].final_state_likelihoods < threshold):
             self.wfile.write('0'.encode('utf-8'))
-            print('I SENT A ZERO')
         else:
             state = np.argmax(result.results[-1].final_state_likelihoods)
             num_states = result.results[-1].num_states
             reward = state / (num_states - 1)
-            print('I GOT A REWARD OF ', reward)
             self.wfile.write(str(reward).encode('utf-8'))
 
 
@@ -55,6 +52,7 @@ def run(server_class=HTTPServer, handler_class=S, port=500):
     httpd = server_class(server_address, handler_class)
     print('Starting server...')
     httpd.serve_forever()
+
 
 if __name__ == "__main__":
     from sys import argv
