@@ -93,7 +93,6 @@ def get_dims(env):
     distance_threshold = tmp_env.env.distance_threshold
     PARAMS['distance_threshold'] = distance_threshold
     PARAMS['dims'] = dims
-    import pdb; pdb.set_trace()
 
 
 def train(policy, rollout_worker, evaluator, writer):
@@ -165,7 +164,6 @@ def main():
     choose_gpu()
     args = parse_args()
     seed = set_seed(args.seed)
-    import pdb; pdb.set_trace()
     env = make_vec_env(args.env, 'robotics', args.num_envs, seed=seed, reward_scale=1.0, flatten_dict_observations=False, reward_type=args.reward_type)
     seed = set_seed(args.seed)
     get_dims(env)

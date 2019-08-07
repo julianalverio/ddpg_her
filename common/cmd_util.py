@@ -55,7 +55,6 @@ def make_vec_env(env_id, env_type, num_env, seed, reward_type,
 
 # This only works for mujoco now
 def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.0, gamestate=None, flatten_dict_observations=True, wrapper_kwargs=None, logger_dir=None):
-    import pdb; pdb.set_trace()
     env = gym.make(env_id, reward_type)
     env.seed(seed + subrank)
     env = Monitor(env)
