@@ -35,6 +35,7 @@ class S(BaseHTTPRequestHandler):
 
         # temporary
         self.wfile.write('0'.encode('utf-8'))
+        return
 
 
         try:
