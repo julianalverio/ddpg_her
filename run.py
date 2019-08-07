@@ -1,6 +1,5 @@
 import sys
 sys.path.insert(0, '/storage/jalverio/gym/')
-import pdb; pdb.set_trace()
 import gym
 from common.cmd_util import make_vec_env
 import os
