@@ -31,6 +31,10 @@ class S(BaseHTTPRequestHandler):
         data = self.rfile.read(int(self.headers['Content-Length']))
         frames = np.array(json.loads(data)['images'])
         frames = [frames[idx] for idx in range(frames.shape[0])]
+        print('showing frames info')
+        print(type(frames))
+        print(len(frames))
+        print(frames[0].shape)
         try:
             print('running viterbi...')
             result = model.viterbi_given_frames(detector_path, 'The robot picked up the cube', frames)
