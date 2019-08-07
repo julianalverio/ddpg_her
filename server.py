@@ -3,6 +3,7 @@ import numpy as np
 import sys
 sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
 from st import load_model
+from st.generate_tracks import IncompleteTrackException
 import json
 
 detector_path = '/storage/jalverio/sentence-tracker/robot/detector'
@@ -26,31 +27,27 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
+        self._set_headers()
+        data = self.rfile.read(int(self.headers['Content-Length']))
+        frames = np.array(json.loads(data)['images'])
         try:
-            self._set_headers()
-            data = self.rfile.read(int(self.headers['Content-Length']))
-            frames = np.array(json.loads(data)['images'])
-            try:
-                print('running viterbi...')
-                result = model.viterbi_given_frames('The robot picked up the cube', frames)
-            except Exception as e:
-                print('got an error. showing.')
-                print(e)
-                self.wfile.write('-1'.encode('utf-8'))
-                return
+            print('running viterbi...')
+            result = model.viterbi_given_frames('The robot picked up the cube', frames)
+        except IncompleteTrackException:
+            print('incomplete track exception')
+            self.wfile.write('-1'.encode('utf-8'))
+            return
 
-            threshold = -10000
-            if np.any(result.results[-1].final_state_likelihoods < threshold):
-                self.wfile.write('0'.encode('utf-8'))
-                print('I SENT A ZERO')
-            else:
-                state = np.argmax(result.results[-1].final_state_likelihoods)
-                num_states = result.results[-1].num_states
-                reward = state / (num_states - 1)
-                print('I GOT A REWARD OF ', reward)
-                self.wfile.write(str(reward).encode('utf-8'))
-        except:
-            import pdb; pdb.set_trace()
+        threshold = -10000
+        if np.any(result.results[-1].final_state_likelihoods < threshold):
+            self.wfile.write('0'.encode('utf-8'))
+            print('I SENT A ZERO')
+        else:
+            state = np.argmax(result.results[-1].final_state_likelihoods)
+            num_states = result.results[-1].num_states
+            reward = state / (num_states - 1)
+            print('I GOT A REWARD OF ', reward)
+            self.wfile.write(str(reward).encode('utf-8'))
 
 
 def run(server_class=HTTPServer, handler_class=S, port=500):
