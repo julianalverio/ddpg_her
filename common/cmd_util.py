@@ -55,42 +55,18 @@ def make_vec_env(env_id, env_type, num_env, seed, reward_type,
     # else:
     #     return DummyVecEnv([make_thunk(start_index)])
 
-
+# This only works for mujoco now
 def make_env(env_id, env_type, reward_type, mpi_rank=0, subrank=0, seed=None, reward_scale=1.0, gamestate=None, flatten_dict_observations=True, wrapper_kwargs=None, logger_dir=None):
-    wrapper_kwargs = wrapper_kwargs or {}
-    if env_type == 'atari':
-        env = make_atari(env_id)
-    elif env_type == 'retro':
-        import retro
-        gamestate = gamestate or retro.State.DEFAULT
-        env = retro_wrappers.make_retro(game=env_id, max_episode_steps=10000, use_restricted_actions=retro.Actions.DISCRETE, state=gamestate)
-    else:
-        env = gym.make(env_id, reward_type)
+    env = gym.make(env_id, reward_type)
+    env.seed(seed + subrank)
 
-    import pdb; pdb.set_trace()
-    if flatten_dict_observations and isinstance(env.observation_space, gym.spaces.Dict):
-        print('I AM HERE')
-        keys = env.observation_space.spaces.keys()
-        env = gym.wrappers.FlattenDictWrapper(env, dict_keys=list(keys))
-
-    env.seed(seed + subrank if seed is not None else None)
-
-    # remove this!
-    env.render(mode='human')
-    env.render(mode='rgb_array')
+    # # remove this!
+    # env.render(mode='human')
+    # env.render(mode='rgb_array')
 
     env = Monitor(env,
                   logger_dir and os.path.join(logger_dir, str(mpi_rank) + '.' + str(subrank)),
                   allow_early_resets=True)
-
-    if env_type == 'atari':
-        env = wrap_deepmind(env, **wrapper_kwargs)
-    elif env_type == 'retro':
-        env = retro_wrappers.wrap_deepmind_retro(env, **wrapper_kwargs)
-
-    if reward_scale != 1:
-        env = retro_wrappers.RewardScaler(env, reward_scale)
-
     return env
 
 
