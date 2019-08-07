@@ -144,7 +144,8 @@ def generate_videos(evaluator, args):
 
 def main():
     # # test
-    # test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
+    import pdb; pdb.set_trace()
+    test_env = gym.make('FetchPickAndPlace-v1', reward_type='visual')
     # test_env.reset()
     # test_env.step([0, 0, 0, 0])
     # test_env.render(mode='human')
