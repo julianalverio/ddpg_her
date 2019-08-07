@@ -3,6 +3,7 @@ sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
 from common.cmd_util import make_vec_env
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 import argparse
 import torch
 import shutil
