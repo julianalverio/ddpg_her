@@ -3,7 +3,7 @@ import numpy as np
 import sys
 sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
 from st import load_model
-from st.generate_tracks import IncompleteTrackException
+from generate_tracks import IncompleteTrackException
 import json
 
 detector_path = '/storage/jalverio/sentence-tracker/robot/detector'
