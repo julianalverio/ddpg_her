@@ -143,13 +143,6 @@ def generate_videos(evaluator, args):
         images_saved += videos.shape[1]
         print('total images saved: %s' % images_saved)
 
-# def start_servers(num_envs):
-#     print('starting up %s servers' % num_envs)
-#     for worker_idx in range(num_envs):
-#         os.system('python /storage/jalverio/ddpg_her/server.py %s' % (5000 + worker_idx))
-#
-
-
 
 def main():
     # # test
