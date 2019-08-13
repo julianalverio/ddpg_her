@@ -2,14 +2,14 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import numpy as np
 import sys
 sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
-from st import load_model
+from st import load_model, load_detector
 from generate_tracks import IncompleteTrackException
 import json
-# import pydarknet; pydarknet.set_cuda_device(3)
 
-detector_path = '/storage/jalverio/sentence-tracker/robot/detector'
+DETECTOR_ROBOT_PATH = '/storage/jalverio/sentence-tracker/robot/detector'
 robot_path = '/storage/jalverio/sentence-tracker/models/2019-08-01-19-05-robot.pkl'
 model = load_model(robot=True)
+detector = load_detector(DETECTOR_ROBOT_PATH, True)
 
 
 class S(BaseHTTPRequestHandler):
