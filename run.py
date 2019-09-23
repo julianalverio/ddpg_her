@@ -54,7 +54,7 @@ def set_seed(seed):
 
 
 # automatically choose the GPU
-def choose_gpu(threshold=0.7):
+def choose_gpu(threshold=0.99):
     gpus = GPUtil.getGPUs()
     gpus = [gpu for gpu in gpus if gpu.load < threshold and gpu.memoryUtil < threshold]
     # gpus = sorted(gpus, key=lambda x: x.load)
