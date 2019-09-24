@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/storage/jalverio/gym')
+#sys.path.insert(0, '/storage/jalverio/gym')
 import gym
 import numpy as np
 import os
