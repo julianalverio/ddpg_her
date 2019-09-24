@@ -2,7 +2,7 @@ from mujoco_py import GlfwContext
 GlfwContext(offscreen=True) # Create a window to init GLFW.
 
 import sys
-#sys.path.insert(0, '/storage/jalverio/gym/')
+# sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
 from common.cmd_util import make_vec_env
 import os
@@ -55,7 +55,7 @@ def set_seed(seed):
 
 
 # automatically choose the GPU
-def choose_gpu(threshold=0.7):
+def choose_gpu(threshold=0.99):
     gpus = GPUtil.getGPUs()
     gpus = [gpu for gpu in gpus if gpu.load < threshold and gpu.memoryUtil < threshold]
     # gpus = sorted(gpus, key=lambda x: x.load)
