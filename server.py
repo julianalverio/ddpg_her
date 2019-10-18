@@ -2,7 +2,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import numpy as np
 import sys
 sys.path.insert(0, '/storage/jalverio/sentence-tracker/st')
-sys.path.insert(0, '/storage/jalverio/sentence-tracker/st/utils')
 from st import load_model, load_detector
 from generate_tracks import IncompleteTrackException
 import json
