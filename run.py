@@ -117,6 +117,7 @@ def train(policy, rollout_worker, evaluator, writer):
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
 
         if epoch % 50 == 0:
+            import pdb; pdb.set_trace()
             policy.main.save(epoch, np.mean(test_scores))
 
 
