@@ -61,9 +61,6 @@ class ActorCritic(nn.Module):
         critic_path = os.path.join(save_dir + 'critic.torch')
         torch.save(self.actor, actor_path)
         torch.save(self.critic, critic_path)
-        self.critic = torch.load(critic_path)
-        self.actor = torch.load(actor_path)
-
 
 
 class Actor(nn.Module):
