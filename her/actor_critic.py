@@ -53,6 +53,19 @@ class ActorCritic(nn.Module):
         with open(critic_path, 'rb') as f:
             self.critic.load_state_dict(pickle.load(f))
 
+    def save(self, episode, score):
+        base_path = '/storage/jalverio/ddpg_her/models/'
+        path = 'episode%s_score%s'% (episode, score)
+        save_dir = os.path.join(base_path, path)
+        actor_path = os.path.join(save_dir + 'actor.torch')
+        critic_path = os.path.join(save_dir + 'critic.torch')
+        torch.save(self.actor, actor_path)
+        torch.save(self.critic, critic_path)
+        import pdb; pdb.set_trace()
+        self.critic = torch.load(critic_path)
+        self.actor.load(actor_path)
+
+
 
 class Actor(nn.Module):
     def __init__(self, dims):
