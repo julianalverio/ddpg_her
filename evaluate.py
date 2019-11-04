@@ -17,6 +17,8 @@ from her.ddpg import DDPG
 import GPUtil
 from her.her_sampler import make_sample_her_transitions
 from torch.utils.tensorboard import SummaryWriter
+from cv2 import VideoWriter
+
 
 
 PARAMS = {
@@ -91,6 +93,14 @@ def get_dims(env):
     PARAMS['distance_threshold'] = distance_threshold
     PARAMS['dims'] = dims
 
+def write_video(frames, location):
+    FPS = 5.0
+    height, width = frames[0].shape[:2]
+    video = VideoWriter('%s/fetch.avi' % location, 0, FPS, (width, height))
+    for frame in frames:
+        video.write(frame)
+    video.release()
+
 
 def evaluate(policy, env_name):
     env = gym.make(env_name)
@@ -123,6 +133,8 @@ def main():
 
     policy = DDPG(PARAMS)
     evaluate(policy)
+
+
 
 
 if __name__ == '__main__':

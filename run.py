@@ -1,4 +1,3 @@
-import pdb; pdb.set_trace()
 from mujoco_py import GlfwContext
 GlfwContext(offscreen=True) # Create a window to init GLFW.
 
