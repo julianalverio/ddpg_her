@@ -98,9 +98,7 @@ def train(policy, rollout_worker, evaluator, writer):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
         if epoch % 50 == 0:
-            import pdb; pdb.set_trace()
             policy.main.save(epoch, np.mean(test_scores))
-
         print('epoch:', epoch, 'of', n_epochs)
         for _ in range(PARAMS['n_cycles']):
             episode = rollout_worker.generate_rollouts()
