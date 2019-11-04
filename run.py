@@ -97,8 +97,6 @@ def get_dims(env):
 def train(policy, rollout_worker, evaluator, writer):
     n_epochs = int(PARAMS['num_timesteps'] // PARAMS['n_cycles'] // PARAMS['T'] // PARAMS['num_envs'])
     for epoch in range(n_epochs):
-        if epoch % 50 == 0:
-            policy.main.save(epoch, np.mean(test_scores))
         print('epoch:', epoch, 'of', n_epochs)
         for _ in range(PARAMS['n_cycles']):
             episode = rollout_worker.generate_rollouts()
@@ -117,6 +115,8 @@ def train(policy, rollout_worker, evaluator, writer):
 
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
+        if epoch % 50 == 0:
+            policy.main.save(epoch, np.mean(test_scores))
 
 
 
