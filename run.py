@@ -68,7 +68,7 @@ def parse_args():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--env', help='environment ID', type=str, choices=['FetchReach-v1', 'FetchPush-v1', 'FetchPickAndPlace-v1'])
     arg_parser.add_argument('--num_timesteps', type=float, default=1e6),
-    arg_parser.add_argument('--num_envs', default=None, type=int)
+    arg_parser.add_argument('--num_envs', default=25, type=int)
     arg_parser.add_argument('--seed', type=int, default=None)
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs

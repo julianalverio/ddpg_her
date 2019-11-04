@@ -73,6 +73,9 @@ class DDPG(object):
         buffer_size = (self.buffer_size // self.rollout_batch_size) * self.rollout_batch_size
         self.buffer = ReplayBuffer(buffer_shapes, buffer_size, self.T, self.sample_transitions)
 
+        if params.model_path:
+            self.main.load_model(params.model_path)
+
     def torch_random_action(self, n):
         return torch.tensor(np.random.uniform(low=-1., high=1., size=(n, self.dimu)).astype(np.float32))
 

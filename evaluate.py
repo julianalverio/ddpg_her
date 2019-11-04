@@ -67,12 +67,10 @@ def choose_gpu(threshold=0.99):
 def parse_args():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('--env', help='environment ID', type=str, choices=['FetchReach-v1', 'FetchPush-v1', 'FetchPickAndPlace-v1'])
-    arg_parser.add_argument('--num_timesteps', type=float, default=1e6),
-    arg_parser.add_argument('--num_envs', default=None, type=int)
+    argparse.add_argument('--model_path', type=str)
     arg_parser.add_argument('--seed', type=int, default=None)
     args = arg_parser.parse_args()
-    PARAMS['num_envs'] = args.num_envs
-    PARAMS['num_timesteps'] = args.num_timesteps
+    PARAMS['model_path'] = args.model_path
     return args
 
 

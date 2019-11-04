@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+import pickle
+import os
 
 
 class ActorCritic(nn.Module):
@@ -42,6 +44,14 @@ class ActorCritic(nn.Module):
         goals = torch.tensor(goals).to(self.device)
         input_tensor = torch.cat([obs, goals, actions], dim=1)
         return self.critic(input_tensor)
+
+    def load_models(self, model_path):
+        actor_path = os.path.join(model_path, 'actor.pkl')
+        critic_path = os.path.join(model_path, 'critic.pkl')
+        with open(actor_path, 'rb') as f:
+            self.actor.load_state_dict(pickle.load(f))
+        with open(critic_path, 'rb') as f:
+            self.critic.load_state_dict(pickle.load(f))
 
 
 class Actor(nn.Module):
