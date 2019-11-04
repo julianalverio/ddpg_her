@@ -116,6 +116,9 @@ def train(policy, rollout_worker, evaluator, writer):
         # make sure that different threads have different seeds
         MPI.COMM_WORLD.Bcast(np.random.uniform(size=(1,)), root=0)
 
+        if epoch % 50 == 0:
+            policy.main.save(epoch, np.mean(test_scores))
+
 
 def main():
     choose_gpu()
