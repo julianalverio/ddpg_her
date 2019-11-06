@@ -87,6 +87,7 @@ class ActorCritic(nn.Module):
         with open(g_stats_path, 'wb') as f:
             pickle.dump(self.g_stats, f)
         self.g_stats.lock = g_stats_lock
+        print('SAVED!')
 
 
 
