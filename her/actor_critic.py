@@ -48,12 +48,14 @@ class ActorCritic(nn.Module):
 
     def load_models(self, model_path):
         model_path = os.path.join('/storage/jalverio/ddpg_her/models/', model_path)
-        actor_path = os.path.join(model_path, 'actor.pkl')
-        critic_path = os.path.join(model_path, 'critic.pkl')
-        with open(actor_path, 'rb') as f:
-            self.actor.load_state_dict(pickle.load(f))
-        with open(critic_path, 'rb') as f:
-            self.critic.load_state_dict(pickle.load(f))
+        actor_path = os.path.join(model_path, 'actor.torch')
+        critic_path = os.path.join(model_path, 'critic.torch')
+        self.actor = torch.load(actor_path)
+        self.critic = torch.load(critic_path)
+        # with open(actor_path, 'rb') as f:
+        #     self.actor.load_state_dict(pickle.load(f))
+        # with open(critic_path, 'rb') as f:
+        #     self.critic.load_state_dict(pickle.load(f))
 
         # now load the normalizers
         o_stats_path = os.path.join(model_path, 'o_stats.pkl')
