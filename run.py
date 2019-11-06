@@ -126,7 +126,7 @@ def write_video(frames):
     FPS = 5.0
     height, width = frames[0].shape[:2]
     # video = VideoWriter(location, 0, FPS, (width, height))
-    video = cv2.VideoWriter('test.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 50, (500, 500))
+    video = cv2.VideoWriter('test.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10, (500, 500))
     for frame in frames:
         video.write(frame)
     video.release()
