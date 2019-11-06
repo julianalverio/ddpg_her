@@ -146,8 +146,8 @@ def make_videos(model_dir, policy, env_name):
         import pdb; pdb.set_trace()
         actions = np.squeeze(policy.get_actions(obs, goal, 0, 0).cpu().detach().numpy())
         obs_dict_new, _, done, info = env.step(actions)
-        obs = torch.tensor(obs_dict_new['observation']).cuda()
-        obs = torch.unsqueeze(obs, 0)
+        obs = obs_dict_new['observation']
+        obs = np.expand_dims(obs, axis=0)
         frames.append(env.render(mode='rgb_array'))
     write_video(frames)
     print('GO BACK AND RENAME THE VIDEO!! D:<')
