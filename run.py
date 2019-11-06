@@ -143,6 +143,7 @@ def make_videos(model_dir, policy, env_name):
     goal = np.expand_dims(goal, axis=0)
     frames = []
     for _ in range(50):
+        import pdb; pdb.set_trace()
         actions = policy.get_actions(obs, goal, 0, 0)
         obs_dict_new, _, done, info = env.step(actions)
         obs = torch.tensor(obs_dict_new['observation']).cuda()
@@ -179,5 +180,4 @@ def main():
 
 
 if __name__ == '__main__':
-    import pdb; pdb.set_trace()
     main()
