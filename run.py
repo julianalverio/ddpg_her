@@ -143,7 +143,6 @@ def make_videos(model_dir, policy, env_name):
     goal = np.expand_dims(goal, axis=0)
     frames = []
     for _ in range(50):
-        import pdb; pdb.set_trace()
         actions = np.squeeze(policy.get_actions(obs, goal, 0, 0).cpu().detach().numpy())
         obs_dict_new, _, done, info = env.step(actions)
         obs = obs_dict_new['observation']
