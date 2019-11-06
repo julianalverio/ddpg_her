@@ -138,8 +138,7 @@ def make_videos(model_dir, policy, env_name):
 
     obs_dict = env.reset()
     obs = obs_dict['observation']
-    print(obs_dict)
-    goal = obs_dict['goal']
+    goal = obs_dict['desired_goal']
     frames = []
     for _ in range(50):
         actions = policy.get_actions(obs, goal, 0, 0)
