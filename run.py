@@ -66,6 +66,7 @@ def choose_gpu(threshold=0.99):
 
 def parse_args():
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('--model_dir', type=str, default='')
     arg_parser.add_argument('--env', help='environment ID', type=str, choices=['FetchReach-v1', 'FetchPush-v1', 'FetchPickAndPlace-v1'])
     arg_parser.add_argument('--num_timesteps', type=float, default=1e7),
     arg_parser.add_argument('--num_envs', default=25, type=int)
@@ -73,6 +74,7 @@ def parse_args():
     args = arg_parser.parse_args()
     PARAMS['num_envs'] = args.num_envs
     PARAMS['num_timesteps'] = args.num_timesteps
+    PARAMS['model_dir'] = args.model_dir
     return args
 
 
@@ -119,6 +121,12 @@ def train(policy, rollout_worker, evaluator, writer):
         if epoch % 50 == 0:
             policy.main.save(epoch, np.mean(test_scores))
 
+def make_videos(model_dir):
+    base = '/storage/jalverio/ddpg_her/models'
+    model_dir = os.path.join(base, model_dir)
+    
+
+
 
 
 def main():
@@ -136,9 +144,13 @@ def main():
     writer = SummaryWriter(PARAMS['log_dir'])
 
     policy = DDPG(PARAMS)
-    rollout_worker = RolloutWorker(env, policy, PARAMS)
-    evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True)
-    train(policy, rollout_worker, evaluator, writer)
+    if PARAMS['model_dir']:
+        make_videos(PARAMS['model_dir'])
+    else:
+        rollout_worker = RolloutWorker(env, policy, PARAMS)
+        evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True)
+        train(policy, rollout_worker, evaluator, writer)
+
 
 
 if __name__ == '__main__':

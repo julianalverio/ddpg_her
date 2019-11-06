@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import pickle
 import os
+import copy
 
 
 class ActorCritic(nn.Module):
@@ -46,6 +47,7 @@ class ActorCritic(nn.Module):
         return self.critic(input_tensor)
 
     def load_models(self, model_path):
+        model_path = os.path.join('/storage/jalverio/ddpg_her/models/', model_path)
         actor_path = os.path.join(model_path, 'actor.pkl')
         critic_path = os.path.join(model_path, 'critic.pkl')
         with open(actor_path, 'rb') as f:
@@ -53,14 +55,36 @@ class ActorCritic(nn.Module):
         with open(critic_path, 'rb') as f:
             self.critic.load_state_dict(pickle.load(f))
 
+        # now load the normalizers
+        o_stats_path = os.path.join(model_path, 'o_stats.pkl')
+        g_stats_path = os.path.join(model_path, 'g_stats.pkl')
+        with open(o_stats_path, 'rb') as f:
+            self.o_stats = pickle.load(f)
+        with open(g_stats_path, 'rb') as f:
+            self.g_stats = pickle.load(f)
+
     def save(self, episode, score):
         base_path = '/storage/jalverio/ddpg_her/models/'
         path = 'episode%s_score%s'% (episode, score)
         save_dir = os.path.join(base_path, path)
-        actor_path = os.path.join(save_dir + 'actor.torch')
-        critic_path = os.path.join(save_dir + 'critic.torch')
+        actor_path = os.path.join(save_dir, 'actor.torch')
+        critic_path = os.path.join(save_dir, 'critic.torch')
         torch.save(self.actor, actor_path)
         torch.save(self.critic, critic_path)
+        o_stats_path = os.path.join(save_dir, 'o_stats.pkl')
+        g_stats_path = os.path.join(save_dir, 'g_stats.pkl')
+        o_stats_lock = copy.deepcopy(self.o_stats.lock)
+        self.o_stats.lock = None
+        with open(o_stats_path, 'wb') as f:
+            pickle.dump(self.o_stats, f)
+        self.o_stats.lock = o_stats_lock
+        g_stats_lock = copy.deepcopy(self.g_stats.lock)
+        self.g_stats.lock = None
+        with open(g_stats_path, 'wb') as f:
+            pickle.dump(self.g_stats, f)
+        self.g_stats.lock = g_stats_lock
+
+
 
 
 class Actor(nn.Module):
