@@ -144,7 +144,7 @@ def make_videos(model_dir, policy, env_name):
     frames = []
     for _ in range(50):
         import pdb; pdb.set_trace()
-        actions = np.squ(policy.get_actions(obs, goal, 0, 0).cpu().detach().numpy())
+        actions = np.squeeze(policy.get_actions(obs, goal, 0, 0).cpu().detach().numpy())
         obs_dict_new, _, done, info = env.step(actions)
         obs = torch.tensor(obs_dict_new['observation']).cuda()
         obs = torch.unsqueeze(obs, 0)
