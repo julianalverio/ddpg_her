@@ -138,12 +138,17 @@ def make_videos(model_dir, policy, env_name):
 
     obs_dict = env.reset()
     obs = obs_dict['observation']
+    obs = torch.tensor(obs).cuda()
+    obs = torch.unsqueeze(obs, 0)
     goal = obs_dict['desired_goal']
+    goal = torch.tensor(goal).cuda()
+    goal = torch.unsqueeze(goal, 0)
     frames = []
     for _ in range(50):
         actions = policy.get_actions(obs, goal, 0, 0)
         obs_dict_new, _, done, info = env.step(actions)
-        obs = obs_dict_new['observation']
+        obs = torch.tensor(obs_dict_new['observation']).cuda()
+        obs = torch.unsqueeze(obs, 0)
         frames.append(env.render(mode='rgb_array'))
     write_video(frames)
     print('GO BACK AND RENAME THE VIDEO!! D:<')
