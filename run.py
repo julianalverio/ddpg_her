@@ -166,6 +166,7 @@ def main():
     writer = SummaryWriter(PARAMS['log_dir'])
 
     policy = DDPG(PARAMS)
+    print('PARAMS MODEL DIR', PARAMS['model_dir'])
     if PARAMS['model_dir']:
         make_videos(PARAMS['model_dir'], policy, args.env)
     else:
@@ -176,5 +177,4 @@ def main():
 
 
 if __name__ == '__main__':
-    import pdb; pdb.set_trace()
     main()
