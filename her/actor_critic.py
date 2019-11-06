@@ -90,8 +90,6 @@ class ActorCritic(nn.Module):
         print('SAVED!')
 
 
-
-
 class Actor(nn.Module):
     def __init__(self, dims):
         super(Actor, self).__init__()

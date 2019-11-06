@@ -17,6 +17,7 @@ from her.ddpg import DDPG
 import GPUtil
 from her.her_sampler import make_sample_her_transitions
 from torch.utils.tensorboard import SummaryWriter
+import cv2
 
 
 PARAMS = {
@@ -121,12 +122,33 @@ def train(policy, rollout_worker, evaluator, writer):
         if epoch % 50 == 0:
             policy.main.save(epoch, np.mean(test_scores))
 
-def make_videos(model_dir):
-    base = '/storage/jalverio/ddpg_her/models'
-    model_dir = os.path.join(base, model_dir)
-    
+def write_video(frames):
+    FPS = 5.0
+    height, width = frames[0].shape[:2]
+    # video = VideoWriter(location, 0, FPS, (width, height))
+    import pdb; pdb.set_trace()
+    video = cv2.VideoWriter('test.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 50, (500, 500))
+    for frame in frames:
+        video.write(frame)
+    video.release()
 
+def make_videos(model_dir, policy, env_name):
+    policy.main.load_models(model_dir)
+    env = gym.make(env_name)
 
+    obs_dict = env.reset()
+    obs = obs_dict['observation']
+    goal = obs_dict['goal']
+    frames = []
+    for _ in range(50):
+        actions = policy.get_actions(obs, goal, 0, 0)
+        obs_dict_new, _, done, info = env.step(actions)
+        obs = obs_dict_new['observation']
+        frames.append(env.render(mode='rgb_array'))
+    write_video(frames)
+    print('GO BACK AND RENAME THE VIDEO!! D:<')
+    import pdb; pdb.set_trace()
+    import sys; sys.exit()
 
 
 def main():
@@ -144,8 +166,9 @@ def main():
     writer = SummaryWriter(PARAMS['log_dir'])
 
     policy = DDPG(PARAMS)
+    import pdb; pdb.set_trace()
     if PARAMS['model_dir']:
-        make_videos(PARAMS['model_dir'])
+        make_videos(PARAMS['model_dir'], policy, args.env)
     else:
         rollout_worker = RolloutWorker(env, policy, PARAMS)
         evaluator = RolloutWorker(env, policy, PARAMS, evaluate=True)
