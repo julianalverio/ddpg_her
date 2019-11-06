@@ -67,6 +67,10 @@ class ActorCritic(nn.Module):
         base_path = '/storage/jalverio/ddpg_her/models/'
         path = 'episode%s_score%s'% (episode, score)
         save_dir = os.path.join(base_path, path)
+        try:
+            os.mkdir(save_dir)
+        except:
+            pass
         actor_path = os.path.join(save_dir, 'actor.torch')
         critic_path = os.path.join(save_dir, 'critic.torch')
         torch.save(self.actor, actor_path)
