@@ -77,12 +77,12 @@ class ActorCritic(nn.Module):
         torch.save(self.critic, critic_path)
         o_stats_path = os.path.join(save_dir, 'o_stats.pkl')
         g_stats_path = os.path.join(save_dir, 'g_stats.pkl')
-        o_stats_lock = copy.deepcopy(self.o_stats.lock)
+        o_stats_lock = self.o_stats.lock
         self.o_stats.lock = None
         with open(o_stats_path, 'wb') as f:
             pickle.dump(self.o_stats, f)
         self.o_stats.lock = o_stats_lock
-        g_stats_lock = copy.deepcopy(self.g_stats.lock)
+        g_stats_lock = self.g_stats.lock
         self.g_stats.lock = None
         with open(g_stats_path, 'wb') as f:
             pickle.dump(self.g_stats, f)
