@@ -138,6 +138,7 @@ def make_videos(model_dir, policy, env_name):
 
     obs_dict = env.reset()
     obs = obs_dict['observation']
+    print(obs_dict)
     goal = obs_dict['goal']
     frames = []
     for _ in range(50):
