@@ -1,5 +1,5 @@
-from mujoco_py import GlfwContext
-GlfwContext(offscreen=True) # Create a window to init GLFW.
+# from mujoco_py import GlfwContext
+# GlfwContext(offscreen=True) # Create a window to init GLFW.
 
 import sys
 # sys.path.insert(0, '/storage/jalverio/gym/')
@@ -181,4 +181,5 @@ def main():
 
 
 if __name__ == '__main__':
+    import pdb; pdb.set_trace()
     main()
