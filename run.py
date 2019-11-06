@@ -4,6 +4,7 @@
 import sys
 # sys.path.insert(0, '/storage/jalverio/gym/')
 import gym
+import pdb; pdb.set_trace()
 from common.cmd_util import make_vec_env
 import os
 import argparse
@@ -126,7 +127,6 @@ def write_video(frames):
     FPS = 5.0
     height, width = frames[0].shape[:2]
     # video = VideoWriter(location, 0, FPS, (width, height))
-    import pdb; pdb.set_trace()
     video = cv2.VideoWriter('test.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 50, (500, 500))
     for frame in frames:
         video.write(frame)
